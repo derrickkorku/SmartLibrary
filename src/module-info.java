@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author derri
+ *
+ */
+module SmartLibrary {
+}
