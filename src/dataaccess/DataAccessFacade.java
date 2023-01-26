@@ -12,6 +12,7 @@ import java.util.List;
 import book_mgmt.Book;
 import book_mgmt.BookCopy;
 import mem_mgmt.LibraryMember;
+import user_mgmt.User;
 import dataaccess.DataAccessFacade.StorageType;
 
 

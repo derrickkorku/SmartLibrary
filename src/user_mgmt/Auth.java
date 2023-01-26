@@ -1,4 +1,4 @@
-package dataaccess;
+package user_mgmt;
 
 import java.io.Serializable;
 

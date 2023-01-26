@@ -1,19 +1,17 @@
 package mem_mgmt;
 
+import java.io.Serializable;
+
 import dataaccess.DataAccessFacade;
 
-public class LibraryMember extends Person{
+public class LibraryMember extends Person implements Serializable{
+	private static final long serialVersionUID = 5364845406817457984L;
 	private String memberId;
 	private DataAccessFacade dataAccessFacade;
 	
-	public LibraryMember(String firstName, String lastName, String phoneNumber, String memberId) {
-		super(firstName, lastName, phoneNumber);
+	public LibraryMember(String firstName, String lastName, String phoneNumber, String memberId, Address address) {
+		super(firstName, lastName, phoneNumber, address);
 		this.memberId = memberId;
-	}
-	
-	@Override
-	public void addAddress(Address address) {
-		super.setAddress(address);
 	}
 
 	public String getMemberId() {

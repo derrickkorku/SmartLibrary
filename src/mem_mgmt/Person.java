@@ -1,15 +1,19 @@
 package mem_mgmt;
 
-public abstract class Person {
+import java.io.Serializable;
+
+public abstract class Person implements Serializable{
+	private static final long serialVersionUID = -3565010126849271260L;
 	private String firstName;
 	private String lastName;
 	private String phoneNumber;
 	private Address address;
 	
-	public Person(String firstName, String lastName, String phoneNumber){
+	public Person(String firstName, String lastName, String phoneNumber, Address address){
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
+		this.address = address;
 	}
 	
 	public String getFirstName() {
@@ -36,6 +40,4 @@ public abstract class Person {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	
-	abstract public void addAddress(Address address);
 }

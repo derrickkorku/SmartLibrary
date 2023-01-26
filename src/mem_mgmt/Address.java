@@ -1,16 +1,19 @@
 package mem_mgmt;
 
-public class Address {
+import java.io.Serializable;
+
+public class Address implements Serializable{
+	private static final long serialVersionUID = -3543001670367107453L;
 	private String street;
 	private String state;
 	private String city;
-	private int zip;
+	private String zip;
 	
-	public Address(String street, String state, String city, int zip){
+	public Address(String street, String state, String city, String zip){
 		this.city = city;
 		this.state = state;
 		this.street = street;
-		this.zip = zip;
+		this.setZip(zip);
 	}
 	
 	public String getStreet() {
@@ -31,10 +34,12 @@ public class Address {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public int getZip() {
+
+	public String getZip() {
 		return zip;
 	}
-	public void setZip(int zip) {
+
+	public void setZip(String zip) {
 		this.zip = zip;
 	}
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import book_mgmt.Book;
 import mem_mgmt.LibraryMember;
+import user_mgmt.User;
 import dataaccess.DataAccessFacade.StorageType;
 
 public interface DataAccess { 
