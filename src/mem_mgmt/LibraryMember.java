@@ -53,4 +53,9 @@ public class LibraryMember extends Person implements Serializable{
 	public void setDataAccessFacade(DataAccessFacade dataAccessFacade) {
 		this.dataAccessFacade = dataAccessFacade;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getFirstName() + " " + this.getLastName() + " / " + this.getPhoneNumber();
+	}
 }

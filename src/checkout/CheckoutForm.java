@@ -119,7 +119,8 @@ public class CheckoutForm extends JFrame implements ActionListener{
 			return;
 		}
 		
-		JOptionPane.showMessageDialog(this, "Checkout record created successfully.");
+		this.dispose();
+		MemberCheckoutRecordFrame recordsFrame = new MemberCheckoutRecordFrame(member);
 	}
 	
 	private void viewMemberCheckoutRecord() {

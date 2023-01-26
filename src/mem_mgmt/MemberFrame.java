@@ -14,9 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import java.awt.SystemColor;
@@ -311,6 +309,5 @@ public class MemberFrame extends JFrame implements ActionListener{
 			
 			model.addRow(aRow);
 		}
-	
 	}
 }

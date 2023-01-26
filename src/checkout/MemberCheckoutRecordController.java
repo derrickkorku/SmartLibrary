@@ -1,5 +1,7 @@
 package checkout;
 
+import java.util.List;
+
 import book_mgmt.BookCopy;
 import mem_mgmt.LibraryMember;
 
@@ -13,7 +15,8 @@ public class MemberCheckoutRecordController {
 	private static CheckOutEntry createCheckOutEntry(BookCopy bookCopy) {
 		return new CheckOutEntry(bookCopy);
 	}
-//	public static getData(LibraryMember member) {
-//		
-//	}
+	
+	public static List<CheckOutEntry> getMemberRecords(LibraryMember member) {
+		return MemberCheckoutRecord.getMemberRecords(member);
+	}
 }
