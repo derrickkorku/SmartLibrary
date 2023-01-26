@@ -6,6 +6,8 @@ import java.util.List;
 
 import book_mgmt.Author;
 import book_mgmt.Book;
+import checkout.CheckOutEntry;
+import checkout.MemberCheckoutRecord;
 import mem_mgmt.Address;
 import mem_mgmt.LibraryMember;
 import user_mgmt.Auth;
@@ -16,7 +18,9 @@ public class DefaultDataInitializer {
 		initializeLibraryMemberData();
 		initializeBookData();
 		initializeUserData();
+		initializeCheckoutRecord();
 	}
+
 
 	// create library members
 	private static void initializeLibraryMemberData() {
@@ -32,6 +36,16 @@ public class DefaultDataInitializer {
 		members.add(libraryMember);
 
 		DataAccessFacade.loadMemberMap(members);
+	}
+	
+	private static List<MemberCheckoutRecord> memberRecords = new ArrayList<MemberCheckoutRecord>();
+	private static void initializeCheckoutRecord() {
+		LibraryMember member = LibraryMember.getByMemberID("1002");
+		CheckOutEntry entry = new CheckOutEntry(allBooks.get(0).getBookCopy());
+		MemberCheckoutRecord record = new MemberCheckoutRecord(member, entry);
+		memberRecords.add(record);
+		
+		DataAccessFacade.loadMemberCheckoutRecordMap(memberRecords);	
 	}
 
 	/// create books

@@ -10,16 +10,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import book_mgmt.Book;
-import book_mgmt.BookCopy;
+import checkout.MemberCheckoutRecord;
 import mem_mgmt.LibraryMember;
 import user_mgmt.User;
-import dataaccess.DataAccessFacade.StorageType;
 
 
 public class DataAccessFacade implements DataAccess {
 	
 	enum StorageType {
-		BOOKS, MEMBERS, USERS;
+		BOOKS, MEMBERS, USERS, CHECKOUTRECORDS;
 	}
 	
 	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
@@ -50,6 +49,22 @@ public class DataAccessFacade implements DataAccess {
 	}
 	
 	
+	public void saveNewCheckoutRecord(MemberCheckoutRecord record) {
+		HashMap<String, MemberCheckoutRecord> records = readCheckoutRecordMap();
+		
+		String memberId = record.getMember().getMemberId();
+		records.put(memberId, record);
+		saveToStorage(StorageType.MEMBERS, records);	
+	}
+		
+		
+	@SuppressWarnings("unchecked")
+	public HashMap<String, MemberCheckoutRecord> readCheckoutRecordMap() {
+		//Returns a Map with name/value pairs being
+		//   memberId -> CheckOutEntry
+		return (HashMap<String, MemberCheckoutRecord>) readFromStorage(StorageType.CHECKOUTRECORDS);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public HashMap<String, User> readUserMap() {
 		//Returns a Map with name/value pairs being
@@ -77,6 +92,12 @@ public class DataAccessFacade implements DataAccess {
 		HashMap<String, LibraryMember> members = new HashMap<String, LibraryMember>();
 		memberList.forEach(member -> members.put(member.getMemberId(), member));
 		saveToStorage(StorageType.MEMBERS, members);
+	}
+	
+	static void loadMemberCheckoutRecordMap(List<MemberCheckoutRecord> recordList) {
+		HashMap<String, MemberCheckoutRecord> records = new HashMap<String, MemberCheckoutRecord>();
+		recordList.forEach(r -> records.put(r.getMember().getMemberId(), r));
+		saveToStorage(StorageType.CHECKOUTRECORDS, records);
 	}
 	
 	static void saveToStorage(StorageType type, Object ob) {

@@ -16,7 +16,7 @@ public class Book implements Serializable {
 	private List<BookCopy> bookCopies = new ArrayList<BookCopy>();
 	private static HashMap<String, Book> books = (new DataAccessFacade()).readBooksMap();
 	
-	public Book(String title, String isbn, int maxBorrowedDays, List<Author> list) {
+	public Book(String isbn, String title, int maxBorrowedDays, List<Author> list) {
 		this.title = title;
 		this.isbn = isbn;
 		this.setMaxBorrowedDays(maxBorrowedDays);
@@ -83,6 +83,17 @@ public class Book implements Serializable {
 		}
 		
 		return null;
+	}
+	
+	public BookCopy getBookCopy() {
+		if (this.bookCopies.size() == 0) {
+			return null;
+		}
+		
+		BookCopy copy = this.bookCopies.get(0);
+		this.bookCopies.remove(0);
+		
+		return copy;
 	}
 
 	public static void setBooks(HashMap<String, Book> books) {

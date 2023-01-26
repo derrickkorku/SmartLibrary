@@ -1,47 +1,40 @@
 package checkout;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
+import java.io.Serializable;
+import dataaccess.DataAccessFacade;
 import mem_mgmt.LibraryMember;
 
-import javax.swing.JTable;
-
-public class MemberCheckoutRecord extends JFrame {
-
-	private JPanel contentPane;
-	private JTable table;
+public class MemberCheckoutRecord implements Serializable{
+	private static final long serialVersionUID = -3478361232389930596L;
 	private LibraryMember member;
+	private CheckOutEntry checkoutEntry;
 	
+	public MemberCheckoutRecord(LibraryMember member, CheckOutEntry checkoutEntry){
+		this.member = member;
+		this.checkoutEntry = checkoutEntry;
+	}
 	
-	MemberCheckoutRecord(LibraryMember member){
-		this.setMember(member);
+	public CheckOutEntry getCheckoutEntry() {
+		return checkoutEntry;
 	}
-
-	/**
-	 * Create the frame.
-	 */
-	public MemberCheckoutRecord() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 958, 621);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		
-		table = new JTable();
-		contentPane.add(table);
+	public void setCheckoutEntry(CheckOutEntry checkoutEntry) {
+		this.checkoutEntry = checkoutEntry;
 	}
-
 	public LibraryMember getMember() {
 		return member;
 	}
-
 	public void setMember(LibraryMember member) {
 		this.member = member;
 	}
-
+	
+	public static MemberCheckoutRecord createRecord(LibraryMember member, CheckOutEntry entry) {
+		MemberCheckoutRecord record = new MemberCheckoutRecord(member, entry);
+		try {
+			(new DataAccessFacade()).saveNewCheckoutRecord(record);
+			 return record;
+		}catch(Exception ex) {
+			System.out.println("Eerror" + ex);
+			return null;
+		}
+	}
 }

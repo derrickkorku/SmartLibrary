@@ -12,9 +12,9 @@ public class CheckOutEntry implements Serializable{
 	private BookCopy bookCopy;
 	
 	
-	CheckOutEntry(LocalDate checkoutDate, LocalDate dueDate, BookCopy bookCopy){
-		this.checkoutDate = checkoutDate;
-		this.dueDate = dueDate;
+	public CheckOutEntry(BookCopy bookCopy){
+		this.checkoutDate = LocalDate.now();
+		this.dueDate =	LocalDate.now().plusDays(bookCopy.getBook().getMaxBorrowedDays());
 		this.setBookCopy(bookCopy);
 	}
 	

@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 
 import book_mgmt.Book;
 import book_mgmt.BookController;
+import book_mgmt.BookCopy;
 import mem_mgmt.LibraryMember;
 import mem_mgmt.LibraryMemberController;
 
@@ -102,6 +103,23 @@ public class CheckoutForm extends JFrame implements ActionListener{
 			JOptionPane.showMessageDialog(this, "No book record exits for the provided Book ISBN");
 			return;
 		}
+		
+		
+		BookCopy bookCopy = BookController.getBookCopy(book);
+		
+		if (bookCopy == null) {
+			JOptionPane.showMessageDialog(this, "There is currently no copy for book " + book.getIsbn() + " - " + book.getTitle());
+			return;
+		}
+		
+		MemberCheckoutRecord record = MemberCheckoutRecordController.createMemberCheckoutRecord(bookCopy, member);
+		
+		if (record == null) {
+			JOptionPane.showMessageDialog(this, "There was an error creating checkout record. Try again.");
+			return;
+		}
+		
+		JOptionPane.showMessageDialog(this, "Checkout record created successfully.");
 	}
 	
 	private void viewMemberCheckoutRecord() {
