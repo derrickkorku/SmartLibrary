@@ -54,7 +54,7 @@ public class DataAccessFacade implements DataAccess {
 		
 		String memberId = record.getMember().getMemberId();
 		records.put(memberId, record);
-		saveToStorage(StorageType.MEMBERS, records);	
+		saveToStorage(StorageType.CHECKOUTRECORDS, records);	
 	}
 		
 		
