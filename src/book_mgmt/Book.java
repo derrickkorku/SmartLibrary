@@ -12,6 +12,8 @@ public class Book implements Serializable {
 	private List<Author> authors;
 	private List<BookCopy> bookCopies = new ArrayList<BookCopy>();
 	
+	
+
 	public Book(String title, String isbn, int maxBorrowedDays, List<Author> list) {
 		this.title = title;
 		this.isbn = isbn;

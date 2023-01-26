@@ -1,6 +1,8 @@
-/dataaccess/
+/book/
+/Controller/
+/Model/
+/pruebaMain.class
 /user_mgmt/
-/mem_mgmt/
+/mainP/
 /book_mgmt/
-/main/
-/checkout/
+/dataaccess/
