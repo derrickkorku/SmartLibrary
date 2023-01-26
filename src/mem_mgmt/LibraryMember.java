@@ -11,7 +11,7 @@ public class LibraryMember extends Person implements Serializable{
 	private DataAccessFacade dataAccessFacade;
 	private static HashMap<String, LibraryMember> members = new DataAccessFacade().readMemberMap();
 	
-	public LibraryMember(String firstName, String lastName, String phoneNumber, String memberId, Address address) {
+	public LibraryMember(String memberId, String firstName, String lastName, String phoneNumber, Address address) {
 		super(firstName, lastName, phoneNumber, address);
 		this.memberId = memberId;
 	}
