@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import mem_mgmt.MemberFrame;
 import user_mgmt.Auth;
 import user_mgmt.User;
 import java.awt.Font;
@@ -14,10 +15,11 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class MainAppFrame extends JFrame {
+public class MainAppFrame extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
 	private User user;
+	JButton btnMembership = new JButton("MEMBERSHIP MANAGEMENT");
 
 	/**
 	 * Create the frame.
@@ -33,12 +35,9 @@ public class MainAppFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JButton btnMembership = new JButton("MEMBERSHIP MANAGEMENT");
+	
 		btnMembership.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnMembership.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnMembership.addActionListener(this);
 		
 		JButton btnBookManagement = new JButton("BOOK MANAGEMENT");
 		btnBookManagement.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -60,6 +59,15 @@ public class MainAppFrame extends JFrame {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == this.btnMembership) {
+			this.dispose();
+			MemberFrame mFrame = new MemberFrame();
+			mFrame.setVisible(true);
+		}
 	}
 
 }
