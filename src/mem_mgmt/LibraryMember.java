@@ -35,6 +35,16 @@ public class LibraryMember extends Person implements Serializable{
 	public static HashMap<String, LibraryMember> getMembers() {
 		return members;
 	}
+	
+	public static LibraryMember getByMemberID(String memberID) {
+		for (String key : members.keySet()) {
+			if (key.equals(memberID)) {
+				return members.get(key);
+			}
+		}
+		
+		return null;
+	}
 
 	public DataAccessFacade getDataAccessFacade() {
 		return dataAccessFacade;

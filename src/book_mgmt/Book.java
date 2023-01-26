@@ -2,7 +2,10 @@ package book_mgmt;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import dataaccess.DataAccessFacade;
 
 public class Book implements Serializable {
 	private static final long serialVersionUID = -8563941648780540988L;
@@ -11,6 +14,7 @@ public class Book implements Serializable {
 	private int maxBorrowedDays;
 	private List<Author> authors;
 	private List<BookCopy> bookCopies = new ArrayList<BookCopy>();
+	private static HashMap<String, Book> books = (new DataAccessFacade()).readBooksMap();
 	
 	public Book(String title, String isbn, int maxBorrowedDays, List<Author> list) {
 		this.title = title;
@@ -65,5 +69,23 @@ public class Book implements Serializable {
 
 	public void setBookCopies(List<BookCopy> bookCopies) {
 		this.bookCopies = bookCopies;
+	}
+
+	public static HashMap<String, Book> getBooks() {
+		return books;
+	}
+	
+	public static Book getBookByISBN(String isbn) {
+		for (String key : books.keySet()) {
+			if (key.equals(isbn)) {
+				return books.get(key);
+			}
+		}
+		
+		return null;
+	}
+
+	public static void setBooks(HashMap<String, Book> books) {
+		Book.books = books;
 	}
 }

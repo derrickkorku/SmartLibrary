@@ -7,11 +7,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import checkout.CheckoutForm;
 import dataaccess.DefaultDataInitializer;
 import main.MainAppFrame;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.Font;
@@ -89,8 +91,21 @@ public class LoginForm extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		User user = UserController.logIn(this.txtLoginID.getText(), this.passwordField.getText());
 		
+		if (user == null) {
+			JOptionPane.showMessageDialog(null, "Invalid login credentials. Please try again.");
+			return;
+		}
+		
+		frame.dispose();
+		if (user.getAuthorization().equals(Auth.LIBRARIAN)) {
+			CheckoutForm checkoutForm = new CheckoutForm();
+			checkoutForm.setVisible(true);
+			return;
+		}
+		
 		if (user != null) {
-		    frame.dispose();
+			
+		    
 			mainAppFrame = new MainAppFrame(user);
 			mainAppFrame.setVisible(true);
 		}
