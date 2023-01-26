@@ -90,7 +90,7 @@ public class LoginForm extends JFrame implements ActionListener{
 		User user = UserController.logIn(this.txtLoginID.getText(), this.passwordField.getText());
 		
 		if (user != null) {
-			frame.dispose();
+//			frame.dispose();
 			mainAppFrame = new MainAppFrame(user);
 			mainAppFrame.setVisible(true);
 		}

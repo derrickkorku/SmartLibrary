@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class MainAppFrame extends JFrame implements ActionListener{
+public class MainAppFrame extends JFrame {
 
 	private JPanel contentPane;
 	private User user;
@@ -33,32 +33,25 @@ public class MainAppFrame extends JFrame implements ActionListener{
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		if (this.getUser().getAuthorization() == Auth.ADMIN || this.getUser().getAuthorization() == Auth.BOTH) {
-			JButton btnMembership = new JButton("MEMBERSHIP MANAGEMENT");
-			btnMembership.setFont(new Font("Tahoma", Font.BOLD, 16));
-			btnMembership.addActionListener(this);
-			
-			contentPane.add(btnMembership);
-		}
+		JButton btnMembership = new JButton("MEMBERSHIP MANAGEMENT");
+		btnMembership.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnMembership.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		
-		if (this.getUser().getAuthorization() == Auth.ADMIN || this.getUser().getAuthorization() == Auth.BOTH) {
-			JButton btnBookManagement = new JButton("BOOK MANAGEMENT");
-			btnBookManagement.setFont(new Font("Tahoma", Font.BOLD, 16));
-			btnBookManagement.addActionListener(this);
-			
-			contentPane.add(btnBookManagement);
-		}
+		JButton btnBookManagement = new JButton("BOOK MANAGEMENT");
+		btnBookManagement.setFont(new Font("Tahoma", Font.BOLD, 16));
+		contentPane.add(btnBookManagement);
 		
-		
-		if (this.getUser().getAuthorization() == Auth.LIBRARIAN || this.getUser().getAuthorization() == Auth.BOTH) {
-			JButton btnBookCheckOut = new JButton("BOOK CHECKOUTS");
-			btnBookCheckOut.setFont(new Font("Tahoma", Font.BOLD, 16));
-			
-			btnBookCheckOut.addActionListener(this);
-			contentPane.add(btnBookCheckOut);
-		}
+		JButton btnBookCheckOut = new JButton("BOOK CHECKOUTS");
+		btnBookCheckOut.setFont(new Font("Tahoma", Font.BOLD, 16));
+		contentPane.add(btnBookCheckOut);
+		contentPane.add(btnMembership);
 		
 		this.setUser(user);
+		System.out.println(user.getAuthorization());
+		System.out.println(Auth.ADMIN);
 	}
 
 	public User getUser() {
@@ -67,12 +60,6 @@ public class MainAppFrame extends JFrame implements ActionListener{
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
