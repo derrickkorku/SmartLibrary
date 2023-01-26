@@ -1,6 +1,5 @@
 package user_mgmt;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -21,7 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoginForm extends JFrame implements ActionListener{
-
+	private static final long serialVersionUID = 3191103133799175689L;
 	private JPanel contentPane;
 	private JTextField txtLoginID;
 	private JPasswordField passwordField;
@@ -97,17 +96,21 @@ public class LoginForm extends JFrame implements ActionListener{
 		}
 		
 		frame.dispose();
+		
 		if (user.getAuthorization().equals(Auth.LIBRARIAN)) {
 			CheckoutForm checkoutForm = new CheckoutForm();
 			checkoutForm.setVisible(true);
 			return;
 		}
 		
-		if (user != null) {
-			
-		    
-			mainAppFrame = new MainAppFrame(user);
+		if (user.getAuthorization().equals(Auth.ADMIN)) {
+			return;
+		}
+		
+		if (user.getAuthorization().equals(Auth.BOTH)) {
+			mainAppFrame = new MainAppFrame();
 			mainAppFrame.setVisible(true);
+			return;
 		}
 	}
 }
