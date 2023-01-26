@@ -166,4 +166,40 @@ public class DataAccessFacade implements DataAccess {
 		}
 		private static final long serialVersionUID = 5399827794066637059L;
 	}
+
+	@Override
+	public LibraryMember searchMemberById(String memberId) {
+		HashMap<String, LibraryMember>  mems = readMemberMap();
+		 if(mems.containsKey(memberId)) {
+			 return mems.get(memberId);
+		 }
+		 return null;
+	}
+
+	@Override
+	public HashMap<String, LibraryMember> loadMembersBySearchText(String searchText) {
+		HashMap<String, LibraryMember> recordsMap = readMemberMap();
+		HashMap<String, LibraryMember> tempMembers = new HashMap<String, LibraryMember>();
+		for (String key : recordsMap.keySet()) 
+		{
+			LibraryMember m = recordsMap.get(key);
+			if(
+					m.getMemberId().toLowerCase().contains(searchText.toLowerCase()) ||
+					m.getFirstName().toLowerCase().contains(searchText.toLowerCase()) ||
+					m.getLastName().toLowerCase().contains(searchText.toLowerCase()) 
+				) 
+			{
+				tempMembers.put(m.getMemberId(), m);
+			}
+		}
+		return tempMembers;
+	}
+
+	@Override
+	public void removeMember(String memberId) {
+		HashMap<String, LibraryMember> mems = readMemberMap();
+		if(mems == null) return;
+		mems.remove(memberId);
+		saveToStorage(StorageType.MEMBERS, mems);
+	}
 }

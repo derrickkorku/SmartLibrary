@@ -119,7 +119,6 @@ public class CheckoutForm extends JFrame implements ActionListener{
 			return;
 		}
 		
-		JOptionPane.showMessageDialog(this, "Checkout Entry created successfully for " + member.toString());
 		this.dispose();
 		MemberCheckoutRecordFrame recordsFrame = new MemberCheckoutRecordFrame(member);
 	}
@@ -136,7 +135,5 @@ public class CheckoutForm extends JFrame implements ActionListener{
 			JOptionPane.showMessageDialog(this, "No library member record exists for the provided MemberID.");
 			return;
 		}
-		
-		MemberCheckoutRecordFrame recordsFrame = new MemberCheckoutRecordFrame(member);
 	}
 }

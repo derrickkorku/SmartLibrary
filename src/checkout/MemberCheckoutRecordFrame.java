@@ -7,12 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import main.MainAppFrame;
 import mem_mgmt.Address;
 import mem_mgmt.LibraryMember;
-import user_mgmt.Auth;
-import user_mgmt.User;
-import user_mgmt.UserController;
 
 import javax.swing.JTable;
 import java.awt.BorderLayout;
@@ -20,11 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import java.awt.Font;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
-public class MemberCheckoutRecordFrame extends JFrame implements ActionListener{
+public class MemberCheckoutRecordFrame extends JFrame {
 	private static final long serialVersionUID = -7112903973145529432L;
 	private JPanel contentPane;
 	private LibraryMember member;
@@ -32,11 +25,9 @@ public class MemberCheckoutRecordFrame extends JFrame implements ActionListener{
 	private JTable table;
 	JLabel lblMemberInfo = new JLabel("");
 	DefaultTableModel model;
-	JButton btnNewCheckout = new JButton("Create | View Checkout Record");
 	
 	
 	MemberCheckoutRecordFrame (LibraryMember member){
-		setResizable(false);
 		setTitle("Member Checkout Record");
 		this.setMember(member);
 		this.setRecords(MemberCheckoutRecordController.getMemberRecords(member));
@@ -47,7 +38,8 @@ public class MemberCheckoutRecordFrame extends JFrame implements ActionListener{
 		}
 		
 		lblMemberInfo.setText("Checkout Record for " + member.toString());
-	
+		JOptionPane.showMessageDialog(this, "Checkout Entry created successfully for " + member.toString());
+		
 		this.showForm();
 		this.loadTable();
 	}
@@ -77,13 +69,8 @@ public class MemberCheckoutRecordFrame extends JFrame implements ActionListener{
 		
 		
 		lblMemberInfo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblMemberInfo.setBounds(10, 11, 435, 14);
+		lblMemberInfo.setBounds(10, 11, 588, 14);
 		contentPane.add(lblMemberInfo);
-		
-		btnNewCheckout.addActionListener(this);
-		btnNewCheckout.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnNewCheckout.setBounds(445, 8, 223, 40);
-		contentPane.add(btnNewCheckout);
 		
 		this.setVisible(true);
 	}
@@ -99,7 +86,6 @@ public class MemberCheckoutRecordFrame extends JFrame implements ActionListener{
 	
 	
 	private void loadTable() {
-		System.out.println(this.records.size());
 		for (CheckOutEntry record : this.records) {
 			System.out.println(record.getBookCopy().getBook().getIsbn());
 			String[] aRow = {
@@ -128,14 +114,5 @@ public class MemberCheckoutRecordFrame extends JFrame implements ActionListener{
 
 	public void setRecords(List<CheckOutEntry> records) {
 		this.records = records;
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnNewCheckout) {
-			CheckoutForm chkForm = new CheckoutForm();
-			this.dispose();
-			chkForm.setVisible(true);
-		}
 	}
 }
