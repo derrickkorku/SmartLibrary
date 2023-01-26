@@ -48,6 +48,7 @@ public class AuthorVisual extends JFrame {
 		setBounds(100, 100, 266, 313);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
