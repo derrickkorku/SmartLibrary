@@ -8,18 +8,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import book.BookVisual;
 import book_mgmt.Author;
 import book_mgmt.Book;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
+import visual.BookVisual;
 
 public class bookController  {
 
 	
 	private Book book;
 	private BookVisual view;
-	
+	public List<Author> listAuthor;
+
 	
 	
 	public bookController() {

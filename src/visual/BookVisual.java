@@ -1,4 +1,4 @@
-package book;
+package visual;
 
 import java.awt.EventQueue;
 
@@ -8,11 +8,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import Controller.bookController;
+import book_mgmt.Author;
 import book_mgmt.Book;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JTable;
@@ -34,12 +38,18 @@ public class BookVisual extends JFrame {
 	private JTable table;
 	private JScrollPane scrollPane;
 	Object[] row = new Object[4];
+	Object[] row2 = new Object[6];
 	private ArrayList<Book> bookList = new ArrayList<>();
 	DefaultTableModel modelTableBook;
+	DefaultTableModel modelTableAuthors;
 	private JButton btnUpdateList;
 	private JTextField searchIsbnField;
 	private JButton btnSearchBook;
 	private JLabel lblNewLabel_3;
+	private JTable table_1;
+	private AuthorVisual instanceAuthor;
+	private List< Author> listAuthor = new ArrayList<>();
+	
 	public boolean isInitialized() {
 		return isInitialized;
 	}
@@ -85,7 +95,7 @@ public class BookVisual extends JFrame {
 		
 		 btnAddBook = new JButton("add");
 
-		 btnAddBook.setBounds(58, 159, 85, 21);
+		 btnAddBook.setBounds(45, 272, 85, 21);
 		contentPane.add(btnAddBook);
 		
 		bookNameText = new JTextField();
@@ -116,20 +126,29 @@ public class BookVisual extends JFrame {
 		contentPane.add(lblNewLabel_2);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(282, 41, 452, 206);
+		scrollPane.setBounds(310, 41, 452, 206);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
 		table.setBackground(SystemColor.text);
 		Object[] column = {"Title","ISBN","MaxDays","Author"};
+		Object[] columnAuthor = {"Firstname","LastName","phone","Address","Bio"};
 	
 		modelTableBook = new DefaultTableModel();
+		modelTableAuthors = new DefaultTableModel();
 		modelTableBook.setColumnIdentifiers(column);
+		modelTableAuthors.setColumnIdentifiers(columnAuthor);
 		table.setModel(modelTableBook);
 		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(10, 149, 290, 67);
+		contentPane.add(scrollPane_1);
+		
+		table_1 = new JTable();
+		scrollPane_1.setViewportView(table_1);
 		
 		scrollPane.setViewportView(table);
-		
+		table_1.setModel(modelTableAuthors);
 		btnUpdateList = new JButton("Update List");
 		btnUpdateList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -138,11 +157,11 @@ public class BookVisual extends JFrame {
 				addRowBook(bookList);
 			}
 		});
-		btnUpdateList.setBounds(153, 159, 85, 21);
+		btnUpdateList.setBounds(156, 272, 85, 21);
 		contentPane.add(btnUpdateList);
 		
 		searchIsbnField = new JTextField();
-		searchIsbnField.setBounds(333, 273, 201, 19);
+		searchIsbnField.setBounds(403, 273, 201, 19);
 		contentPane.add(searchIsbnField);
 		searchIsbnField.setColumns(10);
 		
@@ -165,12 +184,43 @@ public class BookVisual extends JFrame {
 				}
 			}
 		});
-		btnSearchBook.setBounds(544, 272, 120, 20);
+		btnSearchBook.setBounds(614, 272, 120, 20);
 		contentPane.add(btnSearchBook);
 		
 		lblNewLabel_3 = new JLabel("Search By Isbn");
-		lblNewLabel_3.setBounds(181, 276, 128, 13);
+		lblNewLabel_3.setBounds(319, 276, 74, 13);
 		contentPane.add(lblNewLabel_3);
+		
+	
+		JLabel lblNewLabel_4 = new JLabel("Author List");
+		lblNewLabel_4.setBounds(94, 127, 67, 13);
+		contentPane.add(lblNewLabel_4);
+		
+		JButton btnNewButton = new JButton("add Author");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				instanceAuthor = AuthorVisual.getInstance();
+				instanceAuthor.setVisible(true);
+				
+//				System.out.println(instanceAuthor.getAuthor().getFirstName());
+//				instanceAuthor.EXIT_ON_CLOSE;
+				instanceAuthor.addWindowListener(new WindowAdapter() {
+
+					@Override
+					public void windowClosing(WindowEvent e) {
+						// TODO Auto-generated method stub
+						listAuthor.add(instanceAuthor.getAuthor());
+						addRowAuthor(listAuthor);
+						System.out.println("hola mundo");
+					}
+					
+				});
+				
+			}
+		});
+		btnNewButton.setBounds(112, 226, 85, 21);
+		contentPane.add(btnNewButton);
 		
 		
 //		
@@ -201,7 +251,20 @@ public class BookVisual extends JFrame {
 		}
 		
 	}
-	
-	
-	
+	public void addRowAuthor(List<Author>  listAuthor2) {
+		int rowsCount = modelTableAuthors.getRowCount(); 
+		for (int i =rowsCount-1 ;i>=0;i--) modelTableAuthors.removeRow(i);
+		for ( Author author : listAuthor2) {
+			if(author!= null) {
+				row2[0] = author.getFirstName();
+				
+				row2[1] = author.getLastName();
+				row2[2] = author.getPhoneNumber();
+				row2[3] = "";
+				row2[4] = author.getShortBio();
+				modelTableAuthors.addRow(row2);
+			}
+		}
+		
+	}
 }
