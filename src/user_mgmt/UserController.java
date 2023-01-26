@@ -3,7 +3,7 @@ package user_mgmt;
 import javax.swing.JOptionPane;
 
 public class UserController {
-	public static void logIn(String id, String password) {
+	public static User logIn(String id, String password) {
 		
 		//TODO: Add Validation
 		
@@ -11,10 +11,9 @@ public class UserController {
 		
 		if (user == null) {
 			JOptionPane.showMessageDialog(null, "Invalid login credentials. Please try again.");
-			return;
+			return null;
 		}
 		
-		JOptionPane.showMessageDialog(null, "Login successful.");
-		//TODO: Show appropriate window
+		return user;
 	}
 }

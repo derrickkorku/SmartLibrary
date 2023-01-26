@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import dataaccess.DefaultDataInitializer;
+import main.MainAppFrame;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -22,6 +23,8 @@ public class LoginForm extends JFrame implements ActionListener{
 	private JPanel contentPane;
 	private JTextField txtLoginID;
 	private JPasswordField passwordField;
+	private static LoginForm frame;
+	private static MainAppFrame mainAppFrame;
 
 	/**
 	 * Launch the application.
@@ -33,7 +36,7 @@ public class LoginForm extends JFrame implements ActionListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LoginForm frame = new LoginForm();
+					frame = new LoginForm();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -84,6 +87,12 @@ public class LoginForm extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		UserController.logIn(this.txtLoginID.getText(), this.passwordField.getText());
+		User user = UserController.logIn(this.txtLoginID.getText(), this.passwordField.getText());
+		
+		if (user != null) {
+			frame.dispose();
+			mainAppFrame = new MainAppFrame(user);
+			mainAppFrame.setVisible(true);
+		}
 	}
 }
