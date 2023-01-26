@@ -22,10 +22,6 @@ import javax.swing.ListSelectionModel;
 import java.awt.SystemColor;
 
 public class MemberFrame extends JFrame implements ActionListener{
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3141501093779143292L;
 	private JPanel contentPane;
 	private JTable table;
@@ -76,29 +72,6 @@ public class MemberFrame extends JFrame implements ActionListener{
 		
 		btnLoadMembers = new JButton("Load Members");
 		btnLoadMembers.addActionListener(this);
-//		btnLoadMembers.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				//row[0] = tfMemberId.getText();
-//				
-//				List<LibraryMember> allMembers =  controller.getLibraryMembers();
-//				allMembers.forEach((LibraryMember member) -> 
-//				{
-//					Address address = member.getAddress();
-//					String[] aRow = {
-//							member.getMemberId(),
-//							member.getFirstName(),
-//							member.getLastName(),			
-//							address.getStreet(),
-//							address.getCity(),
-//							address.getState(),
-//							address.getZip(),
-//							member.getTelephone()
-//					};
-//					model.addRow(aRow);
-//		        });
-//				
-//			}
-//		});
 		btnLoadMembers.setBounds(20, 35, 101, 23);
 		contentPane.add(btnLoadMembers);
 		btnLoadMembers.setHorizontalAlignment(SwingConstants.LEFT);
@@ -309,10 +282,15 @@ public class MemberFrame extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-	 if (e.getSource() == this.btnLoadMembers) {
-		 this.loadMembers();
-	 }
-		
+		 if (e.getSource() == this.btnLoadMembers) {
+			 this.loadMembers();
+			 return;
+		 }
+		 
+		 if (e.getSource() == this.btnDeleteButton) {
+			 //To something
+			 return;
+		 }
 	}
 	
 	private void loadMembers() {
