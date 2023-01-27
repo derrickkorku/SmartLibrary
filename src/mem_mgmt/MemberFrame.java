@@ -4,6 +4,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+
+
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -19,7 +22,8 @@ import javax.swing.border.TitledBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class MemberFrame extends JFrame{
+public class MemberFrame extends JFrame implements ActionListener{
+	
 	private static final long serialVersionUID = -3141501093779143292L;	
 	private JPanel contentPane;
 	private JTable table;
@@ -47,7 +51,7 @@ public class MemberFrame extends JFrame{
 	private JButton btnDeleteButton;
 	private JButton btnUpdate;
 	
-	private HashMap<String, LibraryMember> members = null;//LibraryMemberController.loadMembers();
+	private HashMap<String, LibraryMember> members = null;
 	private JPanel panel_1;
 	private JPanel panel;
 	private boolean isAddOperation = true;
@@ -124,16 +128,16 @@ public class MemberFrame extends JFrame{
 				if(confirmation!=0)return;
 				
 				else 
-				{
-					//table.remove(selectedRowIndex);
-					LibraryMemberController.removeMember(model.getValueAt(selectedRowIndex,0).toString());					
+				{					
+					LibraryMemberController.removeMember(model.getValueAt(selectedRowIndex,0).toString());
+					model.removeRow(selectedRowIndex);
+					loadMembers();
 					showMessage("Member deleted successfully.");
 				}
 			}
 		});
 		
 		scrollPane = new JScrollPane();
-				
 		scrollPane.setBounds(20, 107, 824, 148);
 		contentPane.add(scrollPane);
 		
@@ -147,8 +151,6 @@ public class MemberFrame extends JFrame{
 				tfMemberId.setEditable(false);
 			}
 		});
-		
-		
 		
 		model = new DefaultTableModel();
 		Object[] columns  = this.getMemberTableColumnNames();
@@ -261,18 +263,6 @@ public class MemberFrame extends JFrame{
 		loadMembers();
 	}
 	
-	private void clearInputFields() 
-	{
-		tfMemberId.setText(null);
-		tfFirstName.setText(null);
-		tfLastName.setText(null);
-		tfStreet.setText(null);
-		tfCity.setText(null);
-		tfState.setText(null);
-		tfZip.setText(null);
-		tfTelephone.setText(null);
-	}
-	
 	private boolean isValidInputs() 
 	{
 		if(tfMemberId.getText().isEmpty()) return false;
@@ -316,6 +306,19 @@ public class MemberFrame extends JFrame{
 	{
 		JOptionPane.showMessageDialog(null,message);
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		try 
+		{
+		}
+		catch(Exception e1) 
+		{
+			showMessage(e1.getLocalizedMessage());
+		} 
+	}
+	
 	
 	private void searchMember() 
 	{
@@ -329,23 +332,22 @@ public class MemberFrame extends JFrame{
 				
 				Address address = member.getAddress();
 				String[] aRow = {
-						member.getMemberId(),
-						member.getFirstName(),
-						member.getLastName(),			
-						address.getStreet(),
-						address.getCity(),
-						address.getState(),
-						address.getZip(),
-						member.getPhoneNumber()
-				};
+									member.getMemberId(),
+									member.getFirstName(),
+									member.getLastName(),			
+									address.getStreet(),
+									address.getCity(),
+									address.getState(),
+									address.getZip(),
+									member.getPhoneNumber()
+								};
 				
 				model.addRow(aRow);
 			}
-			
-			
 		}
 		else 
 		{
+			//showMessage("Please specify search criteria.");
 			loadMembers();
 		}
 	}
@@ -361,56 +363,84 @@ public class MemberFrame extends JFrame{
 			
 			Address address = member.getAddress();
 			String[] aRow = {
-					member.getMemberId(),
-					member.getFirstName(),
-					member.getLastName(),			
-					address.getStreet(),
-					address.getCity(),
-					address.getState(),
-					address.getZip(),
-					member.getPhoneNumber()
-			};
+								member.getMemberId(),
+								member.getFirstName(),
+								member.getLastName(),			
+								address.getStreet(),
+								address.getCity(),
+								address.getState(),
+								address.getZip(),
+								member.getPhoneNumber()
+							};
 			
 			model.addRow(aRow);
 		}	
+		
+		resetScreen(false);
 	}
 	
-	private void deleteMember() 
-	{
-		int selectedRowIndex = table.getSelectedRow();
-		if(selectedRowIndex == -1) 
-		{
-			showMessage("Please select a row first.");
-			return;
-		}
-		int confirmation = JOptionPane.showConfirmDialog(null, "Do you want to delete the Member with Member ID: " + model.getValueAt(selectedRowIndex,0).toString() + "?");
-		if(confirmation!=0)return;
-		
-		else 
-		{
-			LibraryMemberController.removeMember(model.getValueAt(selectedRowIndex,0).toString());
-			model.removeRow(selectedRowIndex);
-			//table.remove(selectedRowIndex);
-			//table.revalidate();
-			this.loadMembers();
-			//model.fireTableDataChanged();
-			//table.repaint();
-			//showMessage("Member deleted successfully.");
-		}
-	}
+	
 	
 	private void addMember() 
 	{
 		isAddOperation = true;
+		resetScreen(isAddOperation);
 	}
 	
 	private void modifyMember() 
 	{
 		isAddOperation = false;
-		tfMemberId.setEnabled(false);
-		btnClearButton.setEnabled(false);
 		btnSaveButton.setEnabled(true);
+		//resetScreen(isAddOperation);
 	}
+	
+	private void clearInputFields() 
+	{
+		if(!isAddOperation) 
+		{
+			tfMemberId.setEditable(false);
+		}
+		else 
+		{
+			tfMemberId.setText(null);
+		}
+		
+		tfFirstName.setText(null);
+		tfLastName.setText(null);
+		tfStreet.setText(null);
+		tfCity.setText(null);
+		tfState.setText(null);
+		tfZip.setText(null);
+		tfTelephone.setText(null);
+	}
+	
+	private void resetScreen(boolean state) 
+	{
+		this.clearInputFields();
+		if(!isAddOperation) 
+		{
+			tfMemberId.setEditable(false);
+		}
+		else 
+		{
+			tfMemberId.setEditable(state);
+		}
+		
+		tfFirstName.setEditable(state);
+		tfLastName.setEditable(state);
+		tfStreet.setEditable(state);
+		tfCity.setEditable(state);
+		tfState.setEditable(state);
+		tfZip.setEditable(state);
+		tfTelephone.setEditable(state);
+		
+		
+		isAddOperation = state;
+		btnClearButton.setEnabled(state);
+		btnSaveButton.setEnabled(state);
+	}
+	
+	
 	
 	private void saveMember() 
 	{
@@ -435,14 +465,13 @@ public class MemberFrame extends JFrame{
 				
 				model.addRow(row);
 			}
-			
 			LibraryMemberController.saveNewMember(getLibraryMember(row));
-			
-			
 			clearInputFields();
 			showMessage("Data saved successfully.");
 		}
-		catch(Exception e1) {
+		catch(Exception e1) 
+		{
+			//model.removeRow(table.getRowCount()-1);
 			showMessage(e1.getLocalizedMessage());
 		}
 	}
@@ -466,10 +495,10 @@ public class MemberFrame extends JFrame{
 	
 	public LibraryMember getLibraryMember(String...values) {
 		return new LibraryMember(
+				values[0],
 				values[1],
 				values[2],
 				values[7],
-				values[0],
 				new Address(
 						values[3],
 						values[4],

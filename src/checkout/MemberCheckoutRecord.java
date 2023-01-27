@@ -45,6 +45,21 @@ public class MemberCheckoutRecord implements Serializable{
 		
 	}
 	
+	
+	public static List<MemberCheckoutRecord> getMemberRecordsByMemberID(String memberID){
+		HashMap<String, List<MemberCheckoutRecord>> records = DataAccessFacade.getInstance().readCheckoutRecordMap();
+		
+		for (String key : records.keySet()) {
+			if (key.equals(memberID)) {
+				return records.get(key);
+			}
+		}
+		
+		return null;
+		
+	}
+	
+	
 	public static MemberCheckoutRecord createRecord(LibraryMember member, CheckOutEntry entry) {
 		MemberCheckoutRecord record = new MemberCheckoutRecord(member, entry);
 		try {

@@ -19,4 +19,8 @@ public class MemberCheckoutRecordController {
 	public static List<MemberCheckoutRecord> getMemberRecords(LibraryMember member) {
 		return MemberCheckoutRecord.getMemberRecords(member);
 	}
+	
+	public static List<MemberCheckoutRecord> getMemberRecordsByMemberID(String memberID) {
+		return MemberCheckoutRecord.getMemberRecordsByMemberID(memberID);
+	}
 }
