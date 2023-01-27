@@ -108,12 +108,7 @@ public class BookForm extends JFrame implements ActionListener {
 		scrollPane.setViewportView(table);
 		table_1.setModel(modelTableAuthors);
 		btnUpdateList = new JButton("Update List");
-		btnUpdateList.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				BookController.getUpdatedBookList();
-				addRowBook(bookList);
-			}
-		});
+		btnUpdateList.addActionListener(this);
 		btnUpdateList.setBounds(156, 272, 109, 21);
 		contentPane.add(btnUpdateList);
 		
@@ -123,22 +118,7 @@ public class BookForm extends JFrame implements ActionListener {
 		searchIsbnField.setColumns(10);
 		
 		btnSearchBook = new JButton("Search");
-		btnSearchBook.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int rowsCount = modelTableBook.getRowCount(); 
-				for (int i =rowsCount-1 ;i>=0;i--) modelTableBook.removeRow(i);
-				Book bookSearch= BookController.searchBook(searchIsbnField.getText());
-				if (bookSearch!=null) {
-				row[0] = bookSearch.getTitle();
-				row[1] = bookSearch.getIsbn();
-				row[2] = bookSearch.getMaxBorrowedDays();
-				row[3] = "";
-				row[4] = bookSearch.getBookCopies().size();
-				modelTableBook.addRow(row);
-				
-				}
-			}
-		});
+		btnSearchBook.addActionListener(this);
 		btnSearchBook.setBounds(614, 272, 120, 20);
 		contentPane.add(btnSearchBook);
 		
@@ -152,60 +132,12 @@ public class BookForm extends JFrame implements ActionListener {
 		contentPane.add(lblNewLabel_4);
 		
 		JButton btnAddAuthor = new JButton("add Author");
-		btnAddAuthor.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				instanceAuthor = AuthorForm.getInstance();
-				instanceAuthor.setVisible(true);
-				
-				instanceAuthor.addMyButtonActionListener(new ActionListener(){
-		            public void actionPerformed(ActionEvent e){
-		                JOptionPane.showMessageDialog(null, "Author Added");
-		                listAuthor.add(instanceAuthor.getAuthor());
-						addRowAuthor(listAuthor);
-		            }
-		        });
-				
-			}
-		});
+		btnAddAuthor.addActionListener(this);
 		btnAddAuthor.setBounds(112, 226, 129, 21);
 		contentPane.add(btnAddAuthor);
 		
 		btnAddCopy = new JButton("Add copy");
-		btnAddCopy.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String LastNamesAuthors="";
-				int rowsCount = modelTableBook.getRowCount(); 
-				for (int i =rowsCount-1 ;i>=0;i--) modelTableBook.removeRow(i);
-				
-				try {
-					BookController.addBookCopy(searchIsbnField.getText(),1);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-				Book bookSearch = BookController.searchBook(searchIsbnField.getText());
-				if (bookSearch!=null) {
-					if (bookSearch.getAuthors() != null)
-						for (Author author: bookSearch.getAuthors()) {
-							LastNamesAuthors+=author.getLastName()+",";
-							
-						};
-				row[0] = bookSearch.getTitle();
-				row[1] = bookSearch.getIsbn();
-				row[2] = bookSearch.getMaxBorrowedDays();
-				if(!LastNamesAuthors.isEmpty()) {
-					row[3] = LastNamesAuthors;
-				}else {
-					row[3] = "Anonymus";
-				}
-				row[4] = bookSearch.getBookCopies().size();
-				modelTableBook.addRow(row);
-				
-				}
-			}
-		});
+		btnAddCopy.addActionListener(this);
 		btnAddCopy.setBounds(744, 272, 85, 21);
 		contentPane.add(btnAddCopy);
 		
@@ -317,24 +249,34 @@ public class BookForm extends JFrame implements ActionListener {
 	}
 	
 	private void addBookCopy() {
-		int rowsCount = modelTableBook.getRowCount();
-		for (int i = rowsCount - 1; i >= 0; i--)
-			modelTableBook.removeRow(i);
+		String LastNamesAuthors="";
+		int rowsCount = modelTableBook.getRowCount(); 
+		for (int i =rowsCount-1 ;i>=0;i--) modelTableBook.removeRow(i);
+		
 		try {
-			BookController.addBookCopy(searchIsbnField.getText(), 1);
+			BookController.addBookCopy(searchIsbnField.getText(),1);
 		} catch (Exception e1) {
-
 			e1.printStackTrace();
 		}
+		
 		Book bookSearch = BookController.searchBook(searchIsbnField.getText());
-		System.out.println(bookSearch.getBookCopies().size());
+		if (bookSearch!=null) {
+			if (bookSearch.getAuthors() != null)
+				for (Author author: bookSearch.getAuthors()) {
+					LastNamesAuthors+=author.getLastName()+",";
+					
+				};
 		row[0] = bookSearch.getTitle();
-
 		row[1] = bookSearch.getIsbn();
 		row[2] = bookSearch.getMaxBorrowedDays();
-		row[3] = "";
+		if(!LastNamesAuthors.isEmpty()) {
+			row[3] = LastNamesAuthors;
+		}else {
+			row[3] = "Anonymus";
+		}
 		row[4] = bookSearch.getBookCopies().size();
 		modelTableBook.addRow(row);
+		}
 	}
 
 	private void addAuthor() {
