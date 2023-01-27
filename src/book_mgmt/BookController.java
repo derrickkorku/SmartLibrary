@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 public class BookController {
 	private BookForm view = BookForm.getInstance();
 	
@@ -17,8 +19,8 @@ public class BookController {
 	}
 	
 	public void addBook(String title, List<Author> listAuthor2) {
-		int maxDays = Integer.parseInt(this.view.maxBorrowData.getText());
-		Book b = new Book(this.view.bookNameText.getText(), this.view.isbnText.getText(), maxDays, listAuthor2);
+		int maxDays = Integer.parseInt( this.view.daysComboBox.getSelectedItem().toString());
+		Book b = new Book(this.view.isbnText.getText(), this.view.bookNameText.getText(), maxDays,listAuthor2);
 		Book.saveBook(b);
 	}
 
@@ -36,12 +38,20 @@ public class BookController {
 		return Book.getBookByISBN(isbn);
 	}
 
-	public static void addBookCopy(String isbn, int copyNum) throws Exception {
+	public static void addBookCopy(String isbn, int copyNum){
 		if (isbn.equals("") || copyNum == 0) {
-			throw new Exception("Incorrect value of ISBN or Book copy.");
+			JOptionPane.showMessageDialog(null, "Incorrect value of ISBN or Book copy.");
+			return;
 		}
 
 		Book b = searchBook(isbn);
-		b.addCopy();
+		
+		if (b == null) {
+			JOptionPane.showMessageDialog(null, "Book not found.");
+			return;
+		}
+		
+		Book copy = b.addCopy();
+		System.out.println(copy.getBookCopies().size());
 	}
 }
