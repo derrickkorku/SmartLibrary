@@ -46,14 +46,14 @@ public class BookForm extends JFrame implements ActionListener {
 	 */
 	private BookForm() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 852, 384);
+		setBounds(100, 100, 1074, 521);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		btnAddBook = new JButton("add");
+		btnAddBook = new JButton("Add Book");
 
 		btnAddBook.setBounds(45, 272, 85, 21);
 		contentPane.add(btnAddBook);
@@ -86,7 +86,7 @@ public class BookForm extends JFrame implements ActionListener {
 		contentPane.add(lblNewLabel_2);
 
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(310, 41, 452, 206);
+		scrollPane.setBounds(310, 42, 452, 206);
 		contentPane.add(scrollPane);
 
 		table = new JTable();
@@ -115,17 +115,17 @@ public class BookForm extends JFrame implements ActionListener {
 		contentPane.add(btnUpdateList);
 
 		searchIsbnField = new JTextField();
-		searchIsbnField.setBounds(403, 273, 201, 19);
+		searchIsbnField.setBounds(466, 272, 201, 19);
 		contentPane.add(searchIsbnField);
 		searchIsbnField.setColumns(10);
 
 		btnSearchBook = new JButton("Search");
 		btnSearchBook.addActionListener(this);
-		btnSearchBook.setBounds(614, 272, 120, 20);
+		btnSearchBook.setBounds(677, 272, 120, 20);
 		contentPane.add(btnSearchBook);
 
 		lblNewLabel_3 = new JLabel("Search By Isbn");
-		lblNewLabel_3.setBounds(319, 276, 74, 13);
+		lblNewLabel_3.setBounds(319, 276, 137, 13);
 		contentPane.add(lblNewLabel_3);
 
 		JLabel lblNewLabel_4 = new JLabel("Author List");
@@ -136,9 +136,9 @@ public class BookForm extends JFrame implements ActionListener {
 		btnAddAuthor.setBounds(112, 226, 129, 21);
 		contentPane.add(btnAddAuthor);
 
-		btnAddCopy = new JButton("Add copy");
+		btnAddCopy = new JButton("Add Book Copy");
 		btnAddCopy.addActionListener(this);
-		btnAddCopy.setBounds(744, 272, 85, 21);
+		btnAddCopy.setBounds(807, 272, 166, 21);
 		contentPane.add(btnAddCopy);
 
 		btnAddBook.addActionListener(this);

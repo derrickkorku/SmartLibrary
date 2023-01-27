@@ -23,5 +23,7 @@ public class BookCopy implements Serializable{
 	public void setCopyNum(int copyNum) {
 		this.copyNum = copyNum;
 	}
+	
+	
 
 }
