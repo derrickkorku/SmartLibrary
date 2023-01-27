@@ -245,7 +245,6 @@ public class BookVisual extends JFrame {
 		contentPane.add(btnAddCopy);
 		
 		
-//		
 		
 		 btnAddBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
