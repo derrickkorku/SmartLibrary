@@ -27,11 +27,11 @@ public class bookController  {
 		this.view = BookVisual.getInstance();
 	}
 	
-	public void addBook(String title) {
+	public void addBook(String title, List<Author> listAuthor2) {
 		
 		DataAccess da = new DataAccessFacade();
 		int maxDays = Integer.parseInt( this.view.maxBorrowData.getText());
-		Book b = new Book(this.view.bookNameText.getText(), this.view.isbnText.getText(), maxDays,null);
+		Book b = new Book(this.view.bookNameText.getText(), this.view.isbnText.getText(), maxDays,listAuthor2);
 		da.saveBook(b);
 	}
 	
@@ -58,6 +58,19 @@ public class bookController  {
 		  }
 		  return null;
 		
+	}
+	
+	public void addBookCopy(String isbn, int copyNum) throws Exception {
+		// TODO Auto-generated method stub
+		DataAccess da = new DataAccessFacade();
+		
+		if (isbn.equals("") || copyNum == 0) {
+			throw new Exception("Incorrect value of ISBN or Book copy.");
+		}
+		
+		Book b = searchBook(isbn);
+		b.addCopy();	
+		da.saveBook(b);
 	}
 
 

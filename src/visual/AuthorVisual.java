@@ -1,6 +1,8 @@
 package visual;
 
 import java.awt.EventQueue;
+import java.awt.Window;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -10,7 +12,9 @@ import javax.swing.border.EmptyBorder;
 import book_mgmt.Author;
 
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -27,7 +31,8 @@ public class AuthorVisual extends JFrame {
 	private JTextField phoneField;
 	private JTextField bioField;
 	public static AuthorVisual Instance = null;
-	
+    private List<ActionListener> buttonActionListeners;
+
 	public  Author author;
 	
 	public static AuthorVisual getInstance() {
@@ -44,6 +49,7 @@ public class AuthorVisual extends JFrame {
 	 * Create the frame.
 	 */
 	public AuthorVisual() {
+		buttonActionListeners = new ArrayList<>();
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 266, 313);
 		contentPane = new JPanel();
@@ -93,14 +99,20 @@ public class AuthorVisual extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				author = new Author(firstNameField.getText(), lastNameField.getText(),phoneField.getText() , null, bioField.getText());
-				
+				dispose();
+				 for(ActionListener listener: buttonActionListeners){
+	                    listener.actionPerformed(e);
+	                }
 			}
 		});
 		btnNewButton.setBounds(41, 235, 85, 21);
 		contentPane.add(btnNewButton);
 	}
 
-
+	  public void addMyButtonActionListener(ActionListener a){
+	        if(!buttonActionListeners.contains(a))
+	            buttonActionListeners.add(a);
+	    }
 	public Author getAuthor() {
 		return author;
 	}

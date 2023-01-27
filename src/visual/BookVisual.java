@@ -25,6 +25,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import java.awt.SystemColor;
+import javax.swing.JComboBox;
 
 public class BookVisual extends JFrame {
 
@@ -37,7 +38,7 @@ public class BookVisual extends JFrame {
 	private boolean isInitialized = true;
 	private JTable table;
 	private JScrollPane scrollPane;
-	Object[] row = new Object[4];
+	Object[] row = new Object[5];
 	Object[] row2 = new Object[6];
 	private ArrayList<Book> bookList = new ArrayList<>();
 	DefaultTableModel modelTableBook;
@@ -49,6 +50,7 @@ public class BookVisual extends JFrame {
 	private JTable table_1;
 	private AuthorVisual instanceAuthor;
 	private List< Author> listAuthor = new ArrayList<>();
+	private JButton btnAddCopy;
 	
 	public boolean isInitialized() {
 		return isInitialized;
@@ -131,7 +133,7 @@ public class BookVisual extends JFrame {
 		
 		table = new JTable();
 		table.setBackground(SystemColor.text);
-		Object[] column = {"Title","ISBN","MaxDays","Author"};
+		Object[] column = {"Title","ISBN","MaxDays","Author","copies"};
 		Object[] columnAuthor = {"Firstname","LastName","phone","Address","Bio"};
 	
 		modelTableBook = new DefaultTableModel();
@@ -157,7 +159,7 @@ public class BookVisual extends JFrame {
 				addRowBook(bookList);
 			}
 		});
-		btnUpdateList.setBounds(156, 272, 85, 21);
+		btnUpdateList.setBounds(156, 272, 109, 21);
 		contentPane.add(btnUpdateList);
 		
 		searchIsbnField = new JTextField();
@@ -172,16 +174,12 @@ public class BookVisual extends JFrame {
 				for (int i =rowsCount-1 ;i>=0;i--) modelTableBook.removeRow(i);
 				bookController bookCtr = new bookController();
 				Book bookSearch=bookCtr.searchBook(searchIsbnField.getText());
-				if (bookSearch!=null) {
-					row[0] = bookSearch.getTitle();
-					
-					row[1] = bookSearch.getIsbn();
-					row[2] = bookSearch.getMaxBorrowedDays();
-					row[3] = "";
-					modelTableBook.addRow(row);
-				}else {
-					JOptionPane.showMessageDialog(null, "the ISBN book its not register");
-				}
+				row[0] = bookSearch.getTitle();
+				row[1] = bookSearch.getIsbn();
+				row[2] = bookSearch.getMaxBorrowedDays();
+				row[3] = "";
+				row[4] = bookSearch.getBookCopies().size();
+				modelTableBook.addRow(row);
 			}
 		});
 		btnSearchBook.setBounds(614, 272, 120, 20);
@@ -196,8 +194,8 @@ public class BookVisual extends JFrame {
 		lblNewLabel_4.setBounds(94, 127, 67, 13);
 		contentPane.add(lblNewLabel_4);
 		
-		JButton btnNewButton = new JButton("add Author");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnAddAuthor = new JButton("add Author");
+		btnAddAuthor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				instanceAuthor = AuthorVisual.getInstance();
@@ -205,22 +203,46 @@ public class BookVisual extends JFrame {
 				
 //				System.out.println(instanceAuthor.getAuthor().getFirstName());
 //				instanceAuthor.EXIT_ON_CLOSE;
-				instanceAuthor.addWindowListener(new WindowAdapter() {
-
-					@Override
-					public void windowClosing(WindowEvent e) {
-						// TODO Auto-generated method stub
-						listAuthor.add(instanceAuthor.getAuthor());
+				
+				instanceAuthor.addMyButtonActionListener(new ActionListener(){
+		            public void actionPerformed(ActionEvent e){
+		                JOptionPane.showMessageDialog(null, "My button in the FirstJPanel Click!");
+		                listAuthor.add(instanceAuthor.getAuthor());
 						addRowAuthor(listAuthor);
-						System.out.println("hola mundo");
-					}
-					
-				});
+		            }
+		        });
 				
 			}
 		});
-		btnNewButton.setBounds(112, 226, 85, 21);
-		contentPane.add(btnNewButton);
+		btnAddAuthor.setBounds(112, 226, 129, 21);
+		contentPane.add(btnAddAuthor);
+		
+		btnAddCopy = new JButton("Add copy");
+		btnAddCopy.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int rowsCount = modelTableBook.getRowCount(); 
+				for (int i =rowsCount-1 ;i>=0;i--) modelTableBook.removeRow(i);
+				bookController bookCtr = new bookController();
+				try {
+					bookCtr.addBookCopy(searchIsbnField.getText(),1);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Book bookSearch=bookCtr.searchBook(searchIsbnField.getText());
+			System.out.println(	bookSearch.getBookCopies().size());
+				row[0] = bookSearch.getTitle();
+				
+				row[1] = bookSearch.getIsbn();
+				row[2] = bookSearch.getMaxBorrowedDays();
+				row[3] = "";
+				row[4] = bookSearch.getBookCopies().size();
+				modelTableBook.addRow(row);
+			}
+		});
+		btnAddCopy.setBounds(744, 272, 85, 21);
+		contentPane.add(btnAddCopy);
 		
 		
 //		
@@ -228,24 +250,44 @@ public class BookVisual extends JFrame {
 		 btnAddBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bookController bookCtr = new bookController();
-				bookCtr.addBook(bookNameText.getText());
+				bookCtr.addBook(bookNameText.getText(),listAuthor);
+				try {
+					bookCtr.addBookCopy(isbnText.getText(),1 );
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} 
 				bookList=	bookCtr.updateDataBook();
 				addRowBook(bookList);
+				listAuthor = new ArrayList<>();
 				
 			}
 		});
 	}
 	
 	public void addRowBook(ArrayList<Book>  bookList) {
+		String LastNamesAuthors="";
 		int rowsCount = modelTableBook.getRowCount(); 
 		for (int i =rowsCount-1 ;i>=0;i--) modelTableBook.removeRow(i);
 		for ( Book book : bookList) {
+			LastNamesAuthors="";
+			if(book.getAuthors()!=null)
+			for (Author author: book.getAuthors()) {
+				LastNamesAuthors+=author.getLastName()+",";
+				
+			};
 			if(book!= null) {
 					row[0] = book.getTitle();
 					
 					row[1] = book.getIsbn();
 			row[2] = book.getMaxBorrowedDays();
-			row[3] = "";
+			
+			if(!LastNamesAuthors.isEmpty()) {
+				row[3] = LastNamesAuthors;
+			}else {
+				row[3] = "Anonymus";
+			}
+			row[4] = book.getBookCopies().size();
 			modelTableBook.addRow(row);
 			}
 		}

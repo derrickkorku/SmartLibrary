@@ -36,12 +36,12 @@ public class DefaultDataInitializer {
 
 	/// create books
 	private static void initializeBookData() {
-		allBooks.get(0).addCopy();
-		allBooks.get(0).addCopy();
-		allBooks.get(1).addCopy();
-		allBooks.get(3).addCopy();
-		allBooks.get(2).addCopy();
-		allBooks.get(2).addCopy();
+//		allBooks.get(0).addCopy();
+//		allBooks.get(0).addCopy();
+//		allBooks.get(1).addCopy();
+//		allBooks.get(3).addCopy();
+//		allBooks.get(2).addCopy();
+//		allBooks.get(2).addCopy();
 		DataAccessFacade.loadBookMap(allBooks);
 	}
 
