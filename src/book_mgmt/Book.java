@@ -99,6 +99,10 @@ public class Book implements Serializable {
 	public static void saveBook(Book book) {
 		DataAccessFacade.getInstance().saveBook(book);
 	}
+	
+	public static HashMap<String, Book> getAllBooks() {
+		return DataAccessFacade.getInstance().readBooksMap();
+	}
 
 	public static void setBooks(HashMap<String, Book> books) {
 		Book.books = books;

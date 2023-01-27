@@ -4,9 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-
-import Controller.bookController;
-
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -198,15 +195,14 @@ public class BookForm extends JFrame implements ActionListener {
 	}
 	
 	private void addBook() {
-		bookController bookCtr = new bookController();
-		bookCtr.addBook(bookNameText.getText(), listAuthor);
+		(new BookController()).addBook(bookNameText.getText(), listAuthor);
 		try {
-			bookCtr.addBookCopy(isbnText.getText(), 1);
+			BookController.addBookCopy(isbnText.getText(), 1);
 		} catch (Exception e1) {
 
 			e1.printStackTrace();
 		}
-		bookList = bookCtr.updateDataBook();
+		bookList = BookController.getUpdatedBookList();
 		addRowBook(bookList);
 		listAuthor = new ArrayList<>();
 	}
@@ -215,14 +211,13 @@ public class BookForm extends JFrame implements ActionListener {
 		int rowsCount = modelTableBook.getRowCount();
 		for (int i = rowsCount - 1; i >= 0; i--)
 			modelTableBook.removeRow(i);
-		bookController bookCtr = new bookController();
 		try {
-			bookCtr.addBookCopy(searchIsbnField.getText(), 1);
+			BookController.addBookCopy(searchIsbnField.getText(), 1);
 		} catch (Exception e1) {
 
 			e1.printStackTrace();
 		}
-		Book bookSearch = bookCtr.searchBook(searchIsbnField.getText());
+		Book bookSearch = BookController.searchBook(searchIsbnField.getText());
 		System.out.println(bookSearch.getBookCopies().size());
 		row[0] = bookSearch.getTitle();
 
@@ -250,8 +245,7 @@ public class BookForm extends JFrame implements ActionListener {
 		int rowsCount = modelTableBook.getRowCount();
 		for (int i = rowsCount - 1; i >= 0; i--) 
 			modelTableBook.removeRow(i);
-			bookController bookCtr = new bookController();
-			Book bookSearch = bookCtr.searchBook(searchIsbnField.getText());
+			Book bookSearch = BookController.searchBook(searchIsbnField.getText());
 			row[0] = bookSearch.getTitle();
 			row[1] = bookSearch.getIsbn();
 			row[2] = bookSearch.getMaxBorrowedDays();
@@ -261,8 +255,7 @@ public class BookForm extends JFrame implements ActionListener {
 	}
 
 	private void updateList() {
-		bookController bookCtr = new bookController();
-		bookList = bookCtr.updateDataBook();
+		bookList = BookController.getUpdatedBookList();
 		addRowBook(bookList);
 	}
 	
