@@ -48,6 +48,10 @@ public class LibraryMember extends Person implements Serializable{
 		return members;
 	}
 	
+	public String getName() {
+		return this.getFirstName() + " " + this.getLastName();
+	}
+	
 	public static LibraryMember getByMemberID(String memberID) {
 		for (String key : members.keySet()) {
 			if (key.equals(memberID)) {

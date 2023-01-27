@@ -23,4 +23,8 @@ public class MemberCheckoutRecordController {
 	public static List<MemberCheckoutRecord> getMemberRecordsByMemberID(String memberID) {
 		return MemberCheckoutRecord.getMemberRecordsByMemberID(memberID);
 	}
+	
+	public static List<MemberCheckoutRecord> getMemberRecordsByISBN(String isbn) {
+		return MemberCheckoutRecord.getMemberRecordsByISBN(isbn);
+	}
 }

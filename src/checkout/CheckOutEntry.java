@@ -10,6 +10,7 @@ public class CheckOutEntry implements Serializable{
 	private LocalDate checkoutDate;
 	private LocalDate dueDate;
 	private BookCopy bookCopy;
+	private boolean isOverdue;
 	
 	
 	public CheckOutEntry(BookCopy bookCopy){
@@ -37,5 +38,13 @@ public class CheckOutEntry implements Serializable{
 
 	public void setBookCopy(BookCopy bookCopy) {
 		this.bookCopy = bookCopy;
+	}
+
+	public boolean isOverdue() {
+		return isOverdue;
+	}
+
+	public void setOverdue(boolean isOverdue) {
+		this.isOverdue = LocalDate.now().isAfter(this.getDueDate());
 	}
 }

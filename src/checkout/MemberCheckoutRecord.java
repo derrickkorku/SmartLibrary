@@ -1,6 +1,7 @@
 package checkout;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -56,6 +57,23 @@ public class MemberCheckoutRecord implements Serializable{
 		}
 		
 		return null;
+		
+	}
+	
+	public static List<MemberCheckoutRecord> getMemberRecordsByISBN(String isbn){
+		HashMap<String, List<MemberCheckoutRecord>> records = DataAccessFacade.getInstance().readCheckoutRecordMap();
+		
+		List<MemberCheckoutRecord> list = new ArrayList<MemberCheckoutRecord>();
+		
+		for (List<MemberCheckoutRecord> record : records.values()) {
+			for (int i = 0; i < record.size(); i++) {
+				if (record.get(i).getCheckoutEntry().getBookCopy().getBook().getIsbn().contains(isbn)) {
+					list.add(record.get(i));
+				}
+			}
+		}
+	
+		return list;
 		
 	}
 	
