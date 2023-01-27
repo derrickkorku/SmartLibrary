@@ -20,17 +20,27 @@ public class bookController  {
 	private Book book;
 	private BookVisual view;
 	public List<Author> listAuthor;
+	public bookController contBookController;
+	public int a ;
 
 	
 	
 	public bookController() {
+		
 		this.view = BookVisual.getInstance();
 	}
 	
+	
+	
+	public bookController(int a) {
+		this.a = a;
+	}
+
+
+
 	public void addBook(String title, List<Author> listAuthor2) {
-		
 		DataAccess da = new DataAccessFacade();
-		int maxDays = Integer.parseInt( this.view.maxBorrowData.getText());
+		int maxDays = Integer.parseInt( this.view.daysComboBox.getSelectedItem().toString());
 		Book b = new Book(this.view.bookNameText.getText(), this.view.isbnText.getText(), maxDays,listAuthor2);
 		da.saveBook(b);
 	}
@@ -69,8 +79,10 @@ public class bookController  {
 		}
 		
 		Book b = searchBook(isbn);
+		if (b==null) {return;}
 		b.addCopy();	
 		da.saveBook(b);
+		
 	}
 
 

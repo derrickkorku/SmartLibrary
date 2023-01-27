@@ -13,6 +13,7 @@ import book_mgmt.Book;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -33,7 +34,6 @@ public class BookVisual extends JFrame {
 	public  JButton btnAddBook;
 	public JTextField bookNameText;
 	public JTextField isbnText;
-	public JTextField maxBorrowData;
 	public static BookVisual Instance = null;
 	private boolean isInitialized = true;
 	private JTable table;
@@ -51,6 +51,8 @@ public class BookVisual extends JFrame {
 	private AuthorVisual instanceAuthor;
 	private List< Author> listAuthor = new ArrayList<>();
 	private JButton btnAddCopy;
+	public JComboBox daysComboBox;
+	private int inicio =0;
 	
 	public boolean isInitialized() {
 		return isInitialized;
@@ -87,6 +89,8 @@ public class BookVisual extends JFrame {
 	 * Create the frame.
 	 */
 	public BookVisual() {
+		
+	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 852, 384);
 		contentPane = new JPanel();
@@ -109,11 +113,6 @@ public class BookVisual extends JFrame {
 		isbnText.setBounds(145, 69, 96, 19);
 		contentPane.add(isbnText);
 		isbnText.setColumns(10);
-		
-		maxBorrowData = new JTextField();
-		maxBorrowData.setBounds(145, 98, 96, 19);
-		contentPane.add(maxBorrowData);
-		maxBorrowData.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Title");
 		lblNewLabel.setBounds(45, 43, 45, 13);
@@ -174,12 +173,15 @@ public class BookVisual extends JFrame {
 				for (int i =rowsCount-1 ;i>=0;i--) modelTableBook.removeRow(i);
 				bookController bookCtr = new bookController();
 				Book bookSearch=bookCtr.searchBook(searchIsbnField.getText());
+				if (bookSearch!=null) {
 				row[0] = bookSearch.getTitle();
 				row[1] = bookSearch.getIsbn();
 				row[2] = bookSearch.getMaxBorrowedDays();
 				row[3] = "";
 				row[4] = bookSearch.getBookCopies().size();
 				modelTableBook.addRow(row);
+				
+				}
 			}
 		});
 		btnSearchBook.setBounds(614, 272, 120, 20);
@@ -206,7 +208,7 @@ public class BookVisual extends JFrame {
 				
 				instanceAuthor.addMyButtonActionListener(new ActionListener(){
 		            public void actionPerformed(ActionEvent e){
-		                JOptionPane.showMessageDialog(null, "My button in the FirstJPanel Click!");
+		                JOptionPane.showMessageDialog(null, "Author Added");
 		                listAuthor.add(instanceAuthor.getAuthor());
 						addRowAuthor(listAuthor);
 		            }
@@ -220,7 +222,7 @@ public class BookVisual extends JFrame {
 		btnAddCopy = new JButton("Add copy");
 		btnAddCopy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				String LastNamesAuthors="";
 				int rowsCount = modelTableBook.getRowCount(); 
 				for (int i =rowsCount-1 ;i>=0;i--) modelTableBook.removeRow(i);
 				bookController bookCtr = new bookController();
@@ -230,26 +232,80 @@ public class BookVisual extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				Book bookSearch=bookCtr.searchBook(searchIsbnField.getText());
-			System.out.println(	bookSearch.getBookCopies().size());
-				row[0] = bookSearch.getTitle();
 				
+				Book bookSearch=bookCtr.searchBook(searchIsbnField.getText());
+				if (bookSearch!=null) {
+					if (bookSearch.getAuthors() != null)
+						for (Author author: bookSearch.getAuthors()) {
+							LastNamesAuthors+=author.getLastName()+",";
+							
+						};
+				row[0] = bookSearch.getTitle();
 				row[1] = bookSearch.getIsbn();
 				row[2] = bookSearch.getMaxBorrowedDays();
-				row[3] = "";
+				if(!LastNamesAuthors.isEmpty()) {
+					row[3] = LastNamesAuthors;
+				}else {
+					row[3] = "Anonymus";
+				}
 				row[4] = bookSearch.getBookCopies().size();
 				modelTableBook.addRow(row);
+				
+				}
+//				String LastNamesAuthors="";
+//				int rowsCount = modelTableBook.getRowCount(); 
+//				for (int i =rowsCount-1 ;i>=0;i--) modelTableBook.removeRow(i);
+//				bookController bookCtr = new bookController();
+//				try {
+//					bookCtr.addBookCopy(searchIsbnField.getText(),1);
+//				} catch (Exception e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+//				Book bookSearch=bookCtr.searchBook(searchIsbnField.getText());
+//				if (bookSearch!=null) {
+//					if (bookSearch.getAuthors() != null)
+//					for (Author author: bookSearch.getAuthors()) {
+//						LastNamesAuthors+=author.getLastName()+",";
+//						
+//					};
+//				row[0] = bookSearch.getTitle();
+//				
+//				row[1] = bookSearch.getIsbn();
+//				row[2] = bookSearch.getMaxBorrowedDays();
+//				if(!LastNamesAuthors.isEmpty()) {
+//					row[3] = LastNamesAuthors;
+//				}else {
+//					row[3] = "Anonymus";
+//				}
+//				row[4] = bookSearch.getBookCopies().size();
+//				}
+//				modelTableBook.addRow(row);
 			}
 		});
 		btnAddCopy.setBounds(744, 272, 85, 21);
 		contentPane.add(btnAddCopy);
+		
+		 daysComboBox = new JComboBox();
+		daysComboBox.setBounds(147, 99, 94, 22);
+		daysComboBox.addItem("21");
+		daysComboBox.addItem("7");
+		
+		contentPane.add(daysComboBox);
 		
 		
 		
 		 btnAddBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bookController bookCtr = new bookController();
+				
+				if(isbnText.getText().isEmpty() || bookNameText.getText().isEmpty()) {
+					 JOptionPane.showMessageDialog(null, "ISBN or Title Book cant be empty");
+					
+					return;
+				}
 				bookCtr.addBook(bookNameText.getText(),listAuthor);
+				
 				try {
 					bookCtr.addBookCopy(isbnText.getText(),1 );
 				} catch (Exception e1) {
@@ -259,9 +315,23 @@ public class BookVisual extends JFrame {
 				bookList=	bookCtr.updateDataBook();
 				addRowBook(bookList);
 				listAuthor = new ArrayList<>();
-				
+				isbnText.setText("");
+				bookNameText.setText("");
+				int rowsCount = modelTableAuthors.getRowCount(); 
+				for (int i =rowsCount-1 ;i>=0;i--) modelTableAuthors.removeRow(i);
+			
+                JOptionPane.showMessageDialog(null, "New book added in the table");
+
 			}
+			
+			
 		});
+		 if (inicio==0) {
+			bookController bookCtr = new bookController(1);
+			bookList=	bookCtr.updateDataBook();
+			addRowBook(bookList);
+			inicio++;
+		}
 	}
 	
 	public void addRowBook(ArrayList<Book>  bookList) {

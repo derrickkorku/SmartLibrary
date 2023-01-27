@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 import dataaccess.DataAccessFacade;
-
+import user_mgmt.*;
 final public class User implements Serializable {
 	
 	private static final long serialVersionUID = 5147265048973262104L;
