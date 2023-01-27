@@ -12,8 +12,7 @@ final public class User implements Serializable {
 	private String id;
 	private String password;
 	private Auth authorization;
-	private static HashMap<String, User> users = new DataAccessFacade().readUserMap();
-	
+
 	public User(String id, String pass, Auth  auth) {
 		this.id = id;
 		this.password = pass;
@@ -31,6 +30,8 @@ final public class User implements Serializable {
 	}
 	
 	public static User login(String id, String password) {
+		HashMap<String, User> users = DataAccessFacade.getInstance().readUserMap();
+		
 		for (String userId : users.keySet()) {
 			if (userId.equals(id) && password.equals(users.get(userId).getPassword())) {
 				return users.get(userId);

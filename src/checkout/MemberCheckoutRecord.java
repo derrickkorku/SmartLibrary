@@ -1,7 +1,6 @@
 package checkout;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,24 +30,25 @@ public class MemberCheckoutRecord implements Serializable{
 		this.member = member;
 	}
 	
-	public static List<CheckOutEntry> getMemberRecords(LibraryMember member) {
-		HashMap<String, MemberCheckoutRecord> records = (new DataAccessFacade()).readCheckoutRecordMap();
+	public static List<MemberCheckoutRecord> getMemberRecords(LibraryMember member) {
+		HashMap<String, List<MemberCheckoutRecord>> records = DataAccessFacade.getInstance().readCheckoutRecordMap();
 		
-		ArrayList<CheckOutEntry> entries = new ArrayList<CheckOutEntry>();
+		
 		
 		for (String key : records.keySet()) {
 			if (key.equals(member.getMemberId())) {
-				entries.add(records.get(key).getCheckoutEntry());
+				return records.get(key);
 			}
 		}
 		
-		return entries;
+		return null;
+		
 	}
 	
 	public static MemberCheckoutRecord createRecord(LibraryMember member, CheckOutEntry entry) {
 		MemberCheckoutRecord record = new MemberCheckoutRecord(member, entry);
 		try {
-			(new DataAccessFacade()).saveNewCheckoutRecord(record);
+			DataAccessFacade.getInstance().saveNewCheckoutRecord(record);
 			 return record;
 		}catch(Exception ex) {
 			System.out.println("Eerror" + ex);

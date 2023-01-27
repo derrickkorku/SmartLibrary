@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,6 +25,13 @@ public class DataAccessFacade implements DataAccess {
 	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
 			+ "\\src\\dataaccess\\storage";
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
+	private static DataAccessFacade instance = new DataAccessFacade();
+	
+	private DataAccessFacade() {}
+	
+	public static DataAccessFacade getInstance() {
+		return instance;
+	}
 	
 	//implement: other save operations
 	public void saveNewMember(LibraryMember member) {
@@ -50,19 +58,38 @@ public class DataAccessFacade implements DataAccess {
 	
 	
 	public void saveNewCheckoutRecord(MemberCheckoutRecord record) {
-		HashMap<String, MemberCheckoutRecord> records = readCheckoutRecordMap();
+		HashMap<String, List<MemberCheckoutRecord>> records = readCheckoutRecordMap();
+		
+		for (String key : records.keySet()) {
+			if (key.equals(record.getMember().getMemberId())) {
+				records.get(key).add(record);
+				saveToStorage(StorageType.CHECKOUTRECORDS, records);
+				return;
+			}
+		} 
 		
 		String memberId = record.getMember().getMemberId();
-		records.put(memberId, record);
+		List<MemberCheckoutRecord> list = new ArrayList<MemberCheckoutRecord>();
+		list.add(record);
+		records.put(memberId, list);
+		
+		
 		saveToStorage(StorageType.CHECKOUTRECORDS, records);	
 	}
 		
+	@Override
+	public void saveBook(Book b) {
+		HashMap<String, Book> books = readBooksMap();
+		String bookISBN = b.getIsbn();
+		books.put(bookISBN, b);
+		saveToStorage(StorageType.BOOKS, books);
+	}
 		
 	@SuppressWarnings("unchecked")
-	public HashMap<String, MemberCheckoutRecord> readCheckoutRecordMap() {
+	public HashMap<String, List<MemberCheckoutRecord>> readCheckoutRecordMap() {
 		//Returns a Map with name/value pairs being
 		//   memberId -> CheckOutEntry
-		return (HashMap<String, MemberCheckoutRecord>) readFromStorage(StorageType.CHECKOUTRECORDS);
+		return (HashMap<String, List<MemberCheckoutRecord>>) readFromStorage(StorageType.CHECKOUTRECORDS);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -94,9 +121,12 @@ public class DataAccessFacade implements DataAccess {
 		saveToStorage(StorageType.MEMBERS, members);
 	}
 	
-	static void loadMemberCheckoutRecordMap(List<MemberCheckoutRecord> recordList) {
-		HashMap<String, MemberCheckoutRecord> records = new HashMap<String, MemberCheckoutRecord>();
-		recordList.forEach(r -> records.put(r.getMember().getMemberId(), r));
+	static void loadMemberCheckoutRecordMap(MemberCheckoutRecord record) {
+		HashMap<String, List<MemberCheckoutRecord>> records = new HashMap<String, List<MemberCheckoutRecord>>();
+		List<MemberCheckoutRecord> list = new ArrayList<MemberCheckoutRecord>();
+		list.add(record);
+		records.put(record.getMember().getMemberId(), list);
+		
 		saveToStorage(StorageType.CHECKOUTRECORDS, records);
 	}
 	

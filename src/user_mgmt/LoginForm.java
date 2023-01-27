@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 
 import checkout.CheckoutForm;
 import dataaccess.DefaultDataInitializer;
+import main.AdminDashboard;
 import main.MainAppFrame;
 
 import javax.swing.JTextField;
@@ -104,6 +105,8 @@ public class LoginForm extends JFrame implements ActionListener{
 		}
 		
 		if (user.getAuthorization().equals(Auth.ADMIN)) {
+			AdminDashboard adminForm = new AdminDashboard();
+			adminForm.setVisible(true);
 			return;
 		}
 		

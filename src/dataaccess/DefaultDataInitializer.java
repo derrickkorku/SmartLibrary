@@ -38,14 +38,13 @@ public class DefaultDataInitializer {
 		DataAccessFacade.loadMemberMap(members);
 	}
 	
-	private static List<MemberCheckoutRecord> memberRecords = new ArrayList<MemberCheckoutRecord>();
+	
 	private static void initializeCheckoutRecord() {
 		LibraryMember member = LibraryMember.getByMemberID("1002");
 		CheckOutEntry entry = new CheckOutEntry(allBooks.get(0).getBookCopy());
 		MemberCheckoutRecord record = new MemberCheckoutRecord(member, entry);
-		memberRecords.add(record);
 		
-		DataAccessFacade.loadMemberCheckoutRecordMap(memberRecords);	
+		DataAccessFacade.loadMemberCheckoutRecordMap(record);	
 	}
 
 	/// create books

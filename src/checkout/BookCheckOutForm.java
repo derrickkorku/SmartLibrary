@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 public class BookCheckOutForm extends JFrame {
-
+	private static final long serialVersionUID = -9062625531141720464L;
 	private JPanel contentPane;
 
 	/**

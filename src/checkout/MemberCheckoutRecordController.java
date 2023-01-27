@@ -16,7 +16,7 @@ public class MemberCheckoutRecordController {
 		return new CheckOutEntry(bookCopy);
 	}
 	
-	public static List<CheckOutEntry> getMemberRecords(LibraryMember member) {
+	public static List<MemberCheckoutRecord> getMemberRecords(LibraryMember member) {
 		return MemberCheckoutRecord.getMemberRecords(member);
 	}
 }

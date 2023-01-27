@@ -6,16 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-
-import main.MainAppFrame;
-import mem_mgmt.Address;
 import mem_mgmt.LibraryMember;
-import user_mgmt.Auth;
-import user_mgmt.User;
-import user_mgmt.UserController;
-
 import javax.swing.JTable;
-import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -28,7 +20,7 @@ public class MemberCheckoutRecordFrame extends JFrame implements ActionListener{
 	private static final long serialVersionUID = -7112903973145529432L;
 	private JPanel contentPane;
 	private LibraryMember member;
-	private List<CheckOutEntry> records;
+	private List<MemberCheckoutRecord> records;
 	private JTable table;
 	JLabel lblMemberInfo = new JLabel("");
 	DefaultTableModel model;
@@ -100,13 +92,12 @@ public class MemberCheckoutRecordFrame extends JFrame implements ActionListener{
 	
 	private void loadTable() {
 		System.out.println(this.records.size());
-		for (CheckOutEntry record : this.records) {
-			System.out.println(record.getBookCopy().getBook().getIsbn());
+		for (MemberCheckoutRecord record : this.records) {
 			String[] aRow = {
-					record.getBookCopy().getBook().getIsbn(),
-					record.getBookCopy().getCopyNum() + "",
-					record.getCheckoutDate().toString(),
-					record.getDueDate().toString()
+					record.getCheckoutEntry().getBookCopy().getBook().getIsbn(),
+					record.getCheckoutEntry().getBookCopy().getCopyNum() + "",
+					record.getCheckoutEntry().getCheckoutDate().toString(),
+					record.getCheckoutEntry().getDueDate().toString()
 			};
 			
 			model.addRow(aRow);
@@ -122,11 +113,11 @@ public class MemberCheckoutRecordFrame extends JFrame implements ActionListener{
 		this.member = member;
 	}
 
-	public List<CheckOutEntry> getRecords() {
+	public List<MemberCheckoutRecord> getRecords() {
 		return records;
 	}
 
-	public void setRecords(List<CheckOutEntry> records) {
+	public void setRecords(List<MemberCheckoutRecord> records) {
 		this.records = records;
 	}
 	

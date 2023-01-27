@@ -4,21 +4,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-
-
-
 import javax.swing.JButton;
-import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import java.awt.SystemColor;
@@ -26,7 +19,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class MemberFrame extends JFrame implements ActionListener{
+public class MemberFrame extends JFrame{
 	private static final long serialVersionUID = -3141501093779143292L;	
 	private JPanel contentPane;
 	private JTable table;
@@ -136,30 +129,11 @@ public class MemberFrame extends JFrame implements ActionListener{
 					LibraryMemberController.removeMember(model.getValueAt(selectedRowIndex,0).toString());					
 					showMessage("Member deleted successfully.");
 				}
-				
-				/*
-				int selectedRowIndex = table.getSelectedRow();
-				if(selectedRowIndex == -1) 
-				{
-					showMessage("Please select a row first.");
-					return;
-				}
-				int confirmation = JOptionPane.showConfirmDialog(null, "Do you want to delete the Member with Member ID: " + model.getValueAt(selectedRowIndex,0).toString() + "?");
-				if(confirmation!=0)return;
-				
-				else 
-				{
-					table.remove(selectedRowIndex);
-					showMessage("Memeber deleted successfully.");
-				}
-				*/
 			}
 		});
 		
 		scrollPane = new JScrollPane();
 				
-		
-		
 		scrollPane.setBounds(20, 107, 824, 148);
 		contentPane.add(scrollPane);
 		
@@ -342,30 +316,6 @@ public class MemberFrame extends JFrame implements ActionListener{
 	{
 		JOptionPane.showMessageDialog(null,message);
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		try 
-		{
-			/*
-			if (e.getSource() == this.btnLoadMembers){
-				 this.loadMembers();
-				 return;
-			}
-			
-			if (e.getSource() == this.btnDeleteButton){
-				this.deleteMember();
-				return;
-			}
-			*/
-		}
-		catch(Exception e1) 
-		{
-			showMessage(e1.getLocalizedMessage());
-		} 
-	}
-	
 	
 	private void searchMember() 
 	{
@@ -396,7 +346,6 @@ public class MemberFrame extends JFrame implements ActionListener{
 		}
 		else 
 		{
-			//showMessage("Please specify search criteria.");
 			loadMembers();
 		}
 	}
@@ -461,34 +410,6 @@ public class MemberFrame extends JFrame implements ActionListener{
 		tfMemberId.setEnabled(false);
 		btnClearButton.setEnabled(false);
 		btnSaveButton.setEnabled(true);
-		
-		/*
-		if(!isValidInputs()) {
-			JOptionPane.showMessageDialog(null, "Please insert the values");
-			return;
-		}		
-		
-		
-		String[] values = getNewMemberInfoFromFields();
-		int rowNumber = table.getSelectedRow();
-		if(rowNumber < 0) {
-			JOptionPane.showMessageDialog(null, "Please select a row");
-			return;
-		}
-		// update model row
-		for(int i=0; i<values.length; i++) {
-			model.setValueAt(values[i], rowNumber, i);
-		}
-		
-		try 
-		{
-			saveMember();
-		}
-		catch(Exception ex) 
-		{
-			showMessage(ex.getLocalizedMessage());
-		}
-		*/
 	}
 	
 	private void saveMember() 
@@ -513,14 +434,8 @@ public class MemberFrame extends JFrame implements ActionListener{
 			{
 				
 				model.addRow(row);
-				//LibraryMember member = getLibraryMember(row);
-				//LibraryMemberController.saveNewMember(member);
 			}
-			/*
-			else 
-			{
-				LibraryMemberController.saveNewMember(existingMember);
-			}*/
+			
 			LibraryMemberController.saveNewMember(getLibraryMember(row));
 			
 			
@@ -528,7 +443,6 @@ public class MemberFrame extends JFrame implements ActionListener{
 			showMessage("Data saved successfully.");
 		}
 		catch(Exception e1) {
-			//model.removeRow(table.getRowCount()-1);
 			showMessage(e1.getLocalizedMessage());
 		}
 	}
@@ -568,20 +482,5 @@ public class MemberFrame extends JFrame implements ActionListener{
 	{
 		this.members = LibraryMemberController.loadMembers();
 		return this.members;
-	}
-	
-	/*
-	private void refreshMemberList() 
-	{
-		model = new DefaultTableModel();
-		Object[] columns  = this.getMemberTableColumnNames();
-		Object[] row = new Object[8];
-		model.setColumnIdentifiers(columns);
-		table.setModel(model);
-		
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		scrollPane.setViewportView(table);
-	}
-	*/
-	
+	}	
 }
