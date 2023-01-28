@@ -292,6 +292,7 @@ public class BookForm extends JFrame implements ActionListener {
 	}
 
 	private void searchBook() {
+		String LastNamesAuthors = "";
 		int rowsCount = modelTableBook.getRowCount();
 		for (int i = rowsCount - 1; i >= 0; i--)
 			modelTableBook.removeRow(i);
@@ -300,6 +301,17 @@ public class BookForm extends JFrame implements ActionListener {
 		row[1] = bookSearch.getIsbn();
 		row[2] = bookSearch.getMaxBorrowedDays();
 		row[3] = "";
+		if (bookSearch.getAuthors() != null)
+			for (Author author : bookSearch.getAuthors()) {
+				LastNamesAuthors += author.getLastName() + ",";
+			}
+		if (!LastNamesAuthors.isEmpty()) {
+			row[3] = LastNamesAuthors;
+		} else {
+			row[3] = "Anonymus";
+		}
+		
+		
 		row[4] = bookSearch.getBookCopies().size();
 		modelTableBook.addRow(row);
 	}
