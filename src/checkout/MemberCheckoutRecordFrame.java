@@ -91,7 +91,8 @@ public class MemberCheckoutRecordFrame extends JFrame implements ActionListener{
 	
 	
 	private void loadTable() {
-		System.out.println(this.records.size());
+		this.records.remove(0);
+		
 		for (MemberCheckoutRecord record : this.records) {
 			String[] aRow = {
 					record.getCheckoutEntry().getBookCopy().getBook().getIsbn(),
