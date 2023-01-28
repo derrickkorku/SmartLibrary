@@ -89,6 +89,11 @@ public class LoginForm extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (this.txtLoginID.getText().trim().equals("") || this.passwordField.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(this, "Login Pin and Password are required field");
+			return;
+		}
+		
 		User user = UserController.logIn(this.txtLoginID.getText(), this.passwordField.getText());
 		
 		if (user == null) {
@@ -97,7 +102,10 @@ public class LoginForm extends JFrame implements ActionListener{
 		}
 		
 		frame.dispose();
-		
+		this.showUserFormByAuthorization(user);
+	}
+	
+	private void showUserFormByAuthorization(User user) {
 		if (user.getAuthorization().equals(Auth.LIBRARIAN)) {
 			CheckoutForm checkoutForm = new CheckoutForm();
 			checkoutForm.setVisible(true);

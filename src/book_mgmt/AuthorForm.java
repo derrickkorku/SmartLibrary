@@ -25,12 +25,8 @@ public class AuthorForm extends JFrame {
 	public Author author;
 
 	public static AuthorForm getInstance() {
-
-		// if(Instance == null) {
 		Instance = new AuthorForm();
-		// }
 		return Instance;
-
 	}
 
 	/**
@@ -38,7 +34,6 @@ public class AuthorForm extends JFrame {
 	 */
 	public AuthorForm() {
 		buttonActionListeners = new ArrayList<>();
-		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 266, 313);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

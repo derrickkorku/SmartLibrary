@@ -5,8 +5,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-
-
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -22,9 +20,9 @@ import javax.swing.border.TitledBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class MemberFrame extends JFrame implements ActionListener{
-	
-	private static final long serialVersionUID = -3141501093779143292L;	
+public class MemberFrame extends JFrame {
+
+	private static final long serialVersionUID = -3141501093779143292L;
 	private JPanel contentPane;
 	private JTable table;
 	private JTextField tfSearchMember;
@@ -50,7 +48,7 @@ public class MemberFrame extends JFrame implements ActionListener{
 	private JButton btnClearButton;
 	private JButton btnDeleteButton;
 	private JButton btnUpdate;
-	
+
 	private HashMap<String, LibraryMember> members = null;
 	private JPanel panel_1;
 	private JPanel panel;
@@ -68,21 +66,21 @@ public class MemberFrame extends JFrame implements ActionListener{
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		panel = new JPanel();
 		panel.setBounds(0, 11, 818, 54);
 		contentPane.add(panel);
 		panel.setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("Search Member(ID/Name):");
 		lblNewLabel.setBounds(14, 32, 135, 14);
 		panel.add(lblNewLabel);
-		
+
 		tfSearchMember = new JTextField();
 		tfSearchMember.setBounds(142, 29, 270, 20);
 		panel.add(tfSearchMember);
 		tfSearchMember.setColumns(10);
-		
+
 		btnNewButton_1 = new JButton("Search");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -91,11 +89,11 @@ public class MemberFrame extends JFrame implements ActionListener{
 		});
 		btnNewButton_1.setBounds(421, 28, 66, 23);
 		panel.add(btnNewButton_1);
-		
+
 		btnDeleteButton = new JButton("Delete");
 		btnDeleteButton.setBounds(121, 1, 89, 23);
 		panel.add(btnDeleteButton);
-		
+
 		btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -104,7 +102,7 @@ public class MemberFrame extends JFrame implements ActionListener{
 		});
 		btnUpdate.setBounds(213, 1, 76, 23);
 		panel.add(btnUpdate);
-		
+
 		JButton btnAddButton = new JButton("Add");
 		btnAddButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -113,37 +111,37 @@ public class MemberFrame extends JFrame implements ActionListener{
 		});
 		btnAddButton.setBounds(10, 1, 89, 23);
 		panel.add(btnAddButton);
-		
-		btnDeleteButton.addActionListener(new ActionListener() 
-		{
+
+		btnDeleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				int selectedRowIndex = table.getSelectedRow();
-				if(selectedRowIndex == -1) 
-				{
+				if (selectedRowIndex == -1) {
 					showMessage("Please select a row first.");
 					return;
 				}
-				int confirmation = JOptionPane.showConfirmDialog(null, "Do you want to delete the Member with Member ID: " + model.getValueAt(selectedRowIndex,0).toString() + "?");
-				if(confirmation!=0)return;
-				
-				else 
-				{					
-					LibraryMemberController.removeMember(model.getValueAt(selectedRowIndex,0).toString());
+				int confirmation = JOptionPane.showConfirmDialog(null,
+						"Do you want to delete the Member with Member ID: "
+								+ model.getValueAt(selectedRowIndex, 0).toString() + "?");
+				if (confirmation != 0)
+					return;
+
+				else {
+					LibraryMemberController.removeMember(model.getValueAt(selectedRowIndex, 0).toString());
 					model.removeRow(selectedRowIndex);
 					loadMembers();
 					showMessage("Member deleted successfully.");
 				}
 			}
 		});
-		
+
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(20, 107, 824, 148);
 		contentPane.add(scrollPane);
-		
+
 		table = new JTable();
 		table.setBackground(SystemColor.activeCaption);
-		
+
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -151,100 +149,99 @@ public class MemberFrame extends JFrame implements ActionListener{
 				tfMemberId.setEditable(false);
 			}
 		});
-		
+
 		model = new DefaultTableModel();
-		Object[] columns  = this.getMemberTableColumnNames();
+		Object[] columns = this.getMemberTableColumnNames();
 		Object[] row = new Object[8];
 		model.setColumnIdentifiers(columns);
 		table.setModel(model);
-		
-		
+
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(table);
-		
+
 		panel_1 = new JPanel();
 		panel_1.setToolTipText("");
 		panel_1.setBorder(new TitledBorder(null, "JPanel title", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_1.setBounds(183, 266, 432, 206);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
-		
+
 		lblNewLabel_1 = new JLabel("Member ID:");
 		lblNewLabel_1.setBounds(6, 16, 66, 30);
 		panel_1.add(lblNewLabel_1);
-		
+
 		lblNewLabel_2 = new JLabel("First Name:");
 		lblNewLabel_2.setBounds(6, 37, 66, 30);
 		panel_1.add(lblNewLabel_2);
-		
+
 		lblNewLabel_3 = new JLabel("Last Name:");
 		lblNewLabel_3.setBounds(6, 57, 66, 30);
 		panel_1.add(lblNewLabel_3);
-		
+
 		lblNewLabel_4 = new JLabel("Street:");
 		lblNewLabel_4.setBounds(6, 78, 66, 30);
 		panel_1.add(lblNewLabel_4);
-		
+
 		lblNewLabel_5 = new JLabel("City:");
 		lblNewLabel_5.setBounds(6, 104, 66, 30);
 		panel_1.add(lblNewLabel_5);
-		
+
 		lblNewLabel_6 = new JLabel("State:");
 		lblNewLabel_6.setBounds(249, 105, 66, 30);
 		panel_1.add(lblNewLabel_6);
-		
+
 		lblNewLabel_7 = new JLabel("Zip:");
 		lblNewLabel_7.setBounds(6, 136, 66, 30);
 		panel_1.add(lblNewLabel_7);
-		
+
 		lblNewLabel_8 = new JLabel("Telephone:");
 		lblNewLabel_8.setBounds(249, 136, 66, 30);
 		panel_1.add(lblNewLabel_8);
-		
+
 		tfMemberId = new JTextField();
 		tfMemberId.setBounds(70, 21, 177, 20);
 		panel_1.add(tfMemberId);
 		tfMemberId.setColumns(10);
-		
+
 		tfFirstName = new JTextField();
 		tfFirstName.setBounds(70, 42, 177, 20);
 		panel_1.add(tfFirstName);
 		tfFirstName.setColumns(10);
-		
+
 		tfLastName = new JTextField();
 		tfLastName.setBounds(70, 62, 177, 20);
 		panel_1.add(tfLastName);
 		tfLastName.setColumns(10);
-		
+
 		tfStreet = new JTextField();
 		tfStreet.setBounds(70, 83, 177, 20);
 		panel_1.add(tfStreet);
 		tfStreet.setColumns(10);
-		
+
 		tfCity = new JTextField();
 		tfCity.setBounds(70, 109, 101, 20);
 		panel_1.add(tfCity);
 		tfCity.setColumns(10);
-		
+
 		tfZip = new JTextField();
 		tfZip.setBounds(70, 136, 101, 20);
 		panel_1.add(tfZip);
 		tfZip.setColumns(10);
-		
+
 		tfState = new JTextField();
 		tfState.setBounds(325, 110, 101, 20);
 		panel_1.add(tfState);
 		tfState.setColumns(10);
-		
+
 		tfTelephone = new JTextField();
 		tfTelephone.setBounds(325, 141, 101, 20);
 		panel_1.add(tfTelephone);
 		tfTelephone.setColumns(10);
-		
+
 		btnSaveButton = new JButton("Save");
 		btnSaveButton.setBounds(70, 177, 89, 23);
 		panel_1.add(btnSaveButton);
-		
+
 		btnClearButton = new JButton("Clear");
 		btnClearButton.setBounds(174, 177, 89, 23);
 		panel_1.add(btnClearButton);
@@ -254,43 +251,43 @@ public class MemberFrame extends JFrame implements ActionListener{
 			}
 		});
 		btnSaveButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {	
-				
+			public void actionPerformed(ActionEvent e) {
+
 				saveMember();
 			}
 		});
-		
+
 		loadMembers();
 	}
-	
-	private boolean isValidInputs() 
-	{
-		if(tfMemberId.getText().isEmpty()) return false;
-		if(tfFirstName.getText().isEmpty()) return false;
-		if(tfLastName.getText().isEmpty()) return false;
-		if(tfStreet.getText().isEmpty()) return false;
-		if(tfCity.getText().isEmpty()) return false;
-		if(tfState.getText().isEmpty()) return false;
-		if(tfZip.getText().isEmpty()) return false;
-		if(tfTelephone.getText().isEmpty()) return false;
+
+	private boolean isValidInputs() {
+		if (tfMemberId.getText().isEmpty())
+			return false;
+		if (tfFirstName.getText().isEmpty())
+			return false;
+		if (tfLastName.getText().isEmpty())
+			return false;
+		if (tfStreet.getText().isEmpty())
+			return false;
+		if (tfCity.getText().isEmpty())
+			return false;
+		if (tfState.getText().isEmpty())
+			return false;
+		if (tfZip.getText().isEmpty())
+			return false;
+		if (tfTelephone.getText().isEmpty())
+			return false;
 		return true;
 	}
-	
+
 	private Object[] getMemberTableColumnNames() {
-		return new Object[]{
-			"Member ID", 
-			"First Name", 
-			"Last Name",
-			"Street", 
-			"City", 
-			"State", 
-			"Zip", 
-			"Telephone Number"
+		return new Object[] {
+				"Member ID", "First Name", "Last Name", "Street", "City", "State", "Zip", "Telephone Number"
 		};
 	}
-	
-	private String[] getNewMemberInfoFromFields(){
-		return new String[]{
+
+	private String[] getNewMemberInfoFromFields() {
+		return new String[] {
 				tfMemberId.getText(),
 				tfFirstName.getText(),
 				tfLastName.getText(),
@@ -299,112 +296,85 @@ public class MemberFrame extends JFrame implements ActionListener{
 				tfState.getText(),
 				tfZip.getText(),
 				tfTelephone.getText()
-			};
-	}
-	
-	private void showMessage(String message) 
-	{
-		JOptionPane.showMessageDialog(null,message);
+		};
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		try 
-		{
-		}
-		catch(Exception e1) 
-		{
-			showMessage(e1.getLocalizedMessage());
-		} 
+	private void showMessage(String message) {
+		JOptionPane.showMessageDialog(null, message);
 	}
-	
-	
-	private void searchMember() 
-	{
+
+	private void searchMember() {
 		String searchText = tfSearchMember.getText().trim();
-		if(searchText!= null && searchText.trim().length() > 0) 
-		{
+		if (searchText != null && searchText.trim().length() > 0) {
 			model.setRowCount(0);
 			HashMap<String, LibraryMember> tempMembers = LibraryMemberController.loadMembersBySearchText(searchText);
 			for (String key : tempMembers.keySet()) {
 				LibraryMember member = tempMembers.get(key);
-				
+
 				Address address = member.getAddress();
 				String[] aRow = {
-									member.getMemberId(),
-									member.getFirstName(),
-									member.getLastName(),			
-									address.getStreet(),
-									address.getCity(),
-									address.getState(),
-									address.getZip(),
-									member.getPhoneNumber()
-								};
-				
+						member.getMemberId(),
+						member.getFirstName(),
+						member.getLastName(),
+						address.getStreet(),
+						address.getCity(),
+						address.getState(),
+						address.getZip(),
+						member.getPhoneNumber()
+				};
+
 				model.addRow(aRow);
 			}
-		}
-		else 
-		{
-			//showMessage("Please specify search criteria.");
+		} else {
+			// showMessage("Please specify search criteria.");
 			loadMembers();
 		}
 	}
-	
-	
+
 	private void loadMembers() {
 		// Reset the model first
 		model.setRowCount(0);
 		HashMap<String, LibraryMember> tempMembers = this.getAllMembers();
-		
+
 		for (String key : tempMembers.keySet()) {
 			LibraryMember member = tempMembers.get(key);
-			
+
 			Address address = member.getAddress();
 			String[] aRow = {
-								member.getMemberId(),
-								member.getFirstName(),
-								member.getLastName(),			
-								address.getStreet(),
-								address.getCity(),
-								address.getState(),
-								address.getZip(),
-								member.getPhoneNumber()
-							};
-			
+					member.getMemberId(),
+					member.getFirstName(),
+					member.getLastName(),
+					address.getStreet(),
+					address.getCity(),
+					address.getState(),
+					address.getZip(),
+					member.getPhoneNumber()
+			};
+
 			model.addRow(aRow);
-		}	
-		
+		}
+
 		resetScreen(false);
 	}
-	
-	
-	
-	private void addMember() 
-	{
+
+	private void addMember() {
 		isAddOperation = true;
 		resetScreen(isAddOperation);
 	}
-	
-	private void modifyMember() 
-	{
+
+	private void modifyMember() {
 		isAddOperation = false;
 		btnSaveButton.setEnabled(true);
-		//resetScreen(isAddOperation);
+		// resetScreen(isAddOperation);
 	}
-	
-	private void clearInputFields() 
-	{
-		if(!isAddOperation) 
-		{
+
+	private void clearInputFields() {
+		if (!isAddOperation) {
 			tfMemberId.setEditable(false);
-		}
-		else 
-		{
+		} else {
 			tfMemberId.setText(null);
 		}
-		
+
 		tfFirstName.setText(null);
 		tfLastName.setText(null);
 		tfStreet.setText(null);
@@ -413,19 +383,15 @@ public class MemberFrame extends JFrame implements ActionListener{
 		tfZip.setText(null);
 		tfTelephone.setText(null);
 	}
-	
-	private void resetScreen(boolean state) 
-	{
+
+	private void resetScreen(boolean state) {
 		this.clearInputFields();
-		if(!isAddOperation) 
-		{
+		if (!isAddOperation) {
 			tfMemberId.setEditable(false);
-		}
-		else 
-		{
+		} else {
 			tfMemberId.setEditable(state);
 		}
-		
+
 		tfFirstName.setEditable(state);
 		tfLastName.setEditable(state);
 		tfStreet.setEditable(state);
@@ -433,53 +399,43 @@ public class MemberFrame extends JFrame implements ActionListener{
 		tfState.setEditable(state);
 		tfZip.setEditable(state);
 		tfTelephone.setEditable(state);
-		
-		
+
 		isAddOperation = state;
 		btnClearButton.setEnabled(state);
 		btnSaveButton.setEnabled(state);
 	}
-	
-	
-	
-	private void saveMember() 
-	{
-		if(!isValidInputs()) 
-		{
+
+	private void saveMember() {
+		if (!isValidInputs()) {
 			showMessage("Please insert all the values.");
 			return;
 		}
-		
+
 		LibraryMember existingMember = LibraryMemberController.searchMemberById(tfMemberId.getText().trim());
-		if(existingMember != null && isAddOperation) 
-		{
+		if (existingMember != null && isAddOperation) {
 			showMessage("Member id already exists");
 			return;
 		}
-		
-		try 
-		{
+
+		try {
 			String[] row = getNewMemberInfoFromFields();
-			if(isAddOperation) 
-			{
-				
+			if (isAddOperation) {
+
 				model.addRow(row);
 			}
 			LibraryMemberController.saveNewMember(getLibraryMember(row));
 			clearInputFields();
 			showMessage("Data saved successfully.");
-		}
-		catch(Exception e1) 
-		{
-			//model.removeRow(table.getRowCount()-1);
+		} catch (Exception e1) {
+			// model.removeRow(table.getRowCount()-1);
 			showMessage(e1.getLocalizedMessage());
 		}
 	}
-	
+
 	private void setSelectedRowIntoTextFields() {
 		isAddOperation = false;
 		int selectedRow = table.getSelectedRow();
-		if(selectedRow < 0)
+		if (selectedRow < 0)
 			return;
 		btnSaveButton.setEnabled(false);
 		btnClearButton.setEnabled(false);
@@ -492,24 +448,14 @@ public class MemberFrame extends JFrame implements ActionListener{
 		tfZip.setText(model.getValueAt(selectedRow, 6).toString());
 		tfTelephone.setText(model.getValueAt(selectedRow, 7).toString());
 	}
-	
-	public LibraryMember getLibraryMember(String...values) {
-		return new LibraryMember(
-				values[0],
-				values[1],
-				values[2],
-				values[7],
-				new Address(
-						values[3],
-						values[4],
-						values[5],
-						values[6])
-				);
+
+	public LibraryMember getLibraryMember(String... values) {
+		return new LibraryMember(values[0], values[1], values[2], values[7],
+				new Address(values[3], values[4], values[5], values[6]));
 	}
-	
-	private HashMap<String, LibraryMember> getAllMembers() 
-	{
+
+	private HashMap<String, LibraryMember> getAllMembers() {
 		this.members = LibraryMemberController.loadMembers();
 		return this.members;
-	}	
+	}
 }
