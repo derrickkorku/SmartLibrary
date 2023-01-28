@@ -131,7 +131,25 @@ public class BookForm extends JFrame implements ActionListener {
 		contentPane.add(lblNewLabel_4);
 
 		JButton btnAddAuthor = new JButton("add Author");
-		btnAddAuthor.addActionListener(this);
+		btnAddAuthor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				instanceAuthor = AuthorForm.getInstance();
+				instanceAuthor.setVisible(true);
+				
+//				System.out.println(instanceAuthor.getAuthor().getFirstName());
+//				instanceAuthor.EXIT_ON_CLOSE;
+				
+				instanceAuthor.addMyButtonActionListener(new ActionListener(){
+		            public void actionPerformed(ActionEvent e){
+		                JOptionPane.showMessageDialog(null, "Author Added");
+		                listAuthor.add(instanceAuthor.getAuthor());
+						addRowAuthor(listAuthor);
+		            }
+		        });
+				
+			}
+		});
 		btnAddAuthor.setBounds(112, 226, 129, 21);
 		contentPane.add(btnAddAuthor);
 
