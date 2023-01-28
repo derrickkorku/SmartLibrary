@@ -1,7 +1,5 @@
 package mem_mgmt;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -9,7 +7,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,33 +16,16 @@ import checkout.MemberCheckoutRecordController;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
 public class CheckoutStatusFrame extends JFrame {
-
+	private static final long serialVersionUID = -2820099428194667393L;
 	private JPanel contentPane;
 	private JTextField tfSearchText;
 	private JTable table;
 	DefaultTableModel checkoutModel;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CheckoutStatusFrame frame = new CheckoutStatusFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -179,39 +159,8 @@ public class CheckoutStatusFrame extends JFrame {
 		buffer.append(topOrBottom);
 		buffer.insert(0, "\n");
 		buffer.insert(0, topOrBottom);
-		//textArea.setText(buffer.toString());
 		System.out.println(buffer.toString());
 	}
-	
-	/*
-	public void addAllCheckoutBook(List<MemberCheckoutRecord> mcrList, DefaultTableModel checkoutModel, boolean overdueOnly) {
-		mcrList.stream().forEach(c->{
-			addCheckoutBook(c,checkoutModel, overdueOnly);
-		});
-	}
-	
-	public void addCheckoutBook(MemberCheckoutRecord mcr, DefaultTableModel checkoutModel, boolean overdueOnly) {
-		mcr
-		.getCheckoutEntries()
-		.stream()
-		.forEach(ck->{
-			String overDueStatus = ck.getDueDate().isBefore(LocalDate.now())? "Overdue" : "Not Overdue";
-			String[] aRow= {
-				ck.getBookCopy().getBook().getTitle(),
-				ck.getBookCopy().getBook().getIsbn(),
-				ck.getBookCopy().getCopyNum() + "",
-				ck.getCheckoutDate().toString(),
-				ck.getDueDate().toString(),
-				mcr.getMember().getMemberId(),
-				mcr.getMember().getFirstName(),
-				overDueStatus
-			};
-			if(overdueOnly && !"Overdue".equals(aRow[7]))
-				return;
-			checkoutModel.addRow(aRow);
-		});
-	}
-	*/
 	
 	private String rightPad(String value, int padLength, String character) {
 		if(value.length() > padLength)
