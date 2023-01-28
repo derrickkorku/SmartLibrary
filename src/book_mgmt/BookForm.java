@@ -141,45 +141,14 @@ public class BookForm extends JFrame implements ActionListener {
 		btnAddCopy.setBounds(744, 272, 85, 21);
 		contentPane.add(btnAddCopy);
 		
-		 daysComboBox = new JComboBox();
+		daysComboBox = new JComboBox();
 		daysComboBox.setBounds(147, 99, 94, 22);
 		daysComboBox.addItem("21");
 		daysComboBox.addItem("7");
 		
 		contentPane.add(daysComboBox);
 		
-		
-		
-		 btnAddBook.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {		
-				if(isbnText.getText().isEmpty() || bookNameText.getText().isEmpty()) {
-					 JOptionPane.showMessageDialog(null, "ISBN or Title Book cant be empty");
-					
-					return;
-				}
-				
-				(new BookController()).addBook(bookNameText.getText(),listAuthor);
-				
-				try {
-					BookController.addBookCopy(isbnText.getText(),1 );
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} 
-				bookList= BookController.getUpdatedBookList();
-				addRowBook(bookList);
-				listAuthor = new ArrayList<>();
-				isbnText.setText("");
-				bookNameText.setText("");
-				int rowsCount = modelTableAuthors.getRowCount(); 
-				for (int i =rowsCount-1 ;i>=0;i--) modelTableAuthors.removeRow(i);
-			
-                JOptionPane.showMessageDialog(null, "New book added in the table");
-
-			}
-			
-			
-		});
+		 btnAddBook.addActionListener(this);
 		
 		 bookList = BookController.getUpdatedBookList();
 		 addRowBook(bookList);
@@ -236,16 +205,28 @@ public class BookForm extends JFrame implements ActionListener {
 	}
 	
 	private void addBook() {
-		(new BookController()).addBook(bookNameText.getText(), listAuthor);
-		try {
-			BookController.addBookCopy(isbnText.getText(), 1);
-		} catch (Exception e1) {
-
-			e1.printStackTrace();
+		if(isbnText.getText().isEmpty() || bookNameText.getText().isEmpty()) {
+			 JOptionPane.showMessageDialog(null, "ISBN or Title Book cant be empty");
+			
+			return;
 		}
-		bookList = BookController.getUpdatedBookList();
+		
+		(new BookController()).addBook(bookNameText.getText(),listAuthor);
+		
+		try {
+			BookController.addBookCopy(isbnText.getText(),1 );
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		} 
+		bookList= BookController.getUpdatedBookList();
 		addRowBook(bookList);
 		listAuthor = new ArrayList<>();
+		isbnText.setText("");
+		bookNameText.setText("");
+		int rowsCount = modelTableAuthors.getRowCount(); 
+		for (int i =rowsCount-1 ;i>=0;i--) modelTableAuthors.removeRow(i);
+	
+       JOptionPane.showMessageDialog(null, "New book added in the table");
 	}
 	
 	private void addBookCopy() {
